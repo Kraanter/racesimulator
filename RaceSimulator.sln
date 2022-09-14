@@ -1,9 +1,13 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 25.0.1703.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaceSimulator", "RaceSimulator\RaceSimulator.csproj", "{6B3D3F64-59E8-4F94-B85F-F9B894CB3CC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{016A9196-DA7C-414A-B683-730D93C19F91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controller", "Controller\Controller.csproj", "{5DB50CAA-DB67-49CE-A076-7E1CE32E61D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{6B3D3F64-59E8-4F94-B85F-F9B894CB3CC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B3D3F64-59E8-4F94-B85F-F9B894CB3CC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B3D3F64-59E8-4F94-B85F-F9B894CB3CC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{016A9196-DA7C-414A-B683-730D93C19F91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{016A9196-DA7C-414A-B683-730D93C19F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{016A9196-DA7C-414A-B683-730D93C19F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{016A9196-DA7C-414A-B683-730D93C19F91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DB50CAA-DB67-49CE-A076-7E1CE32E61D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DB50CAA-DB67-49CE-A076-7E1CE32E61D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DB50CAA-DB67-49CE-A076-7E1CE32E61D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DB50CAA-DB67-49CE-A076-7E1CE32E61D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
