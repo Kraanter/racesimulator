@@ -1,10 +1,19 @@
 ﻿using System;
 namespace Model {
     public class Section {
+        #region Properties
+
         public SectionTypes SectionType { get; set; }
 
-        public Section() {
+        #endregion
+
+        #region Constructors
+
+        public Section(SectionTypes sectionType) {
+            SectionType = sectionType;
         }
+
+        #endregion
     }
 
     public enum SectionTypes {
