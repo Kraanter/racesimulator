@@ -1,7 +1,6 @@
 ﻿using System;
 namespace Model {
     public class Driver : IParticipant {
-
         #region Properties
 
         public string Name { get; set; }
@@ -19,6 +18,15 @@ namespace Model {
             Points = points;
             Equipment = equipment;
             TeamColor = teamColor;
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override string ToString()
+        {
+            return $"{Name} | Points: {Points}";
         }
 
         #endregion

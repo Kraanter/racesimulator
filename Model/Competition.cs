@@ -12,10 +12,10 @@ namespace Model
 
         #region Constructors
 
-        public Competition(List<IParticipant> participants, Queue<Track> tracks)
+        public Competition()
         {
-            Participants = participants;
-            Tracks = tracks;
+            Participants = new List<IParticipant>();
+            Tracks = new Queue<Track>();
         }
 
         #endregion
@@ -23,10 +23,10 @@ namespace Model
         #region Methods
 
         // todo: Create method NextTrack
-        public Track NextTrack()
-        {
+        //public Track NextTrack()
+        //{
 
-        }
+        //}
 
         #endregion
     }
