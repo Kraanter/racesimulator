@@ -11,6 +11,7 @@ namespace Controller
         #region Properties
 
         public static Competition Competition { get; set; }
+        public static Race CurrentRace { get; set; }
 
         #endregion
 
@@ -46,6 +47,13 @@ namespace Controller
             Data.Competition.Tracks.Enqueue(new Track("Monza", sections));
             Data.Competition.Tracks.Enqueue(new Track("Zandvoort", sections));
             Data.Competition.Tracks.Enqueue(new Track("Spa Francorchamps", sections));
+        }
+
+        public static void NextRace()
+        {
+            Track newTrack = Data.Competition.NextTrack();
+            if (newTrack == null) return;
+            CurrentRace = new Race(newTrack, Data.Competition.Participants);
         }
 
         #endregion

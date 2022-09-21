@@ -47,7 +47,6 @@ namespace Controller
             {
                 participant.Equipment.Quality = _random.Next(50);
                 participant.Equipment.Speed = _random.Next(50);
-                Console.WriteLine(participant);
             }
         }
 

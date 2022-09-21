@@ -15,18 +15,18 @@ namespace Model
         public Competition()
         {
             Participants = new List<IParticipant>();
-            Tracks = new Queue<Track>(3);
+            Tracks = new Queue<Track>();
         }
 
         #endregion
 
         #region Methods
 
-        // todo: Create method NextTrack
-        //public Track NextTrack()
-        //{
-
-        //}
+        public Track NextTrack()
+        {
+            if (Tracks.Count < 1) return null;
+            return Tracks.Dequeue();
+        }
 
         #endregion
     }
