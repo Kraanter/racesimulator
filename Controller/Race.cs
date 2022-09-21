@@ -50,6 +50,11 @@ namespace Controller
             }
         }
 
+        public override string ToString()
+        {
+            return this.Track.Name;
+        }
+
         #endregion
     }
 }

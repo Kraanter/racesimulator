@@ -54,6 +54,8 @@ namespace Controller
             Track newTrack = Data.Competition.NextTrack();
             if (newTrack == null) return;
             CurrentRace = new Race(newTrack, Data.Competition.Participants);
+
+            Console.WriteLine(CurrentRace);
         }
 
         #endregion
