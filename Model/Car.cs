@@ -21,6 +21,15 @@ namespace Model {
         }
 
         #endregion
+
+        #region Methods
+
+        public override string ToString()
+        {
+            return $"Car[ Quality: {Quality}, Performance: {Performance}, Speed: {Speed}, IsBroken: {IsBroken}]";
+        }
+
+        #endregion
     }
 }
 

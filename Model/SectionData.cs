@@ -14,14 +14,6 @@ namespace Model
 
         #region Constructors
 
-        public SectionData(IParticipant left, IParticipant right, int distanceLeft, int distanceRight)
-        {
-            Left = left;
-            Right = right;
-            DistanceLeft = distanceLeft;
-            DistanceRight = distanceRight;
-        }
-
         #endregion
     }
 }

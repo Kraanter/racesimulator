@@ -26,7 +26,7 @@ namespace Model {
 
         public override string ToString()
         {
-            return $"{Name} | Points: {Points}";
+            return $"{Name} | Points: {Points} | {Equipment}";
         }
 
         #endregion

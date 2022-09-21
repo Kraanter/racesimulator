@@ -15,7 +15,7 @@ namespace Model
         public Competition()
         {
             Participants = new List<IParticipant>();
-            Tracks = new Queue<Track>();
+            Tracks = new Queue<Track>(3);
         }
 
         #endregion

@@ -43,9 +43,9 @@ namespace Controller
                 SectionTypes.RightCorner,
                 SectionTypes.Finish
             };
-            Data.Competition.Tracks.Append(new Track("Monza", sections));
-            Data.Competition.Tracks.Append(new Track("Zandvoort", sections));
-            Data.Competition.Tracks.Append(new Track("Spa Francorchamps", sections));
+            Data.Competition.Tracks.Enqueue(new Track("Monza", sections));
+            Data.Competition.Tracks.Enqueue(new Track("Zandvoort", sections));
+            Data.Competition.Tracks.Enqueue(new Track("Spa Francorchamps", sections));
         }
 
         #endregion
