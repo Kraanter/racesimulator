@@ -25,20 +25,16 @@ namespace Controller
             Data.AddTracks();
         }
 
-        //public static void AddParticipants(List<IParticipant> participants)
         public static void AddParticipants()
         {
-            //participants.ForEach(participant => Data.Competition.Participants.Add(participant));
             Car car = new Car(10, 10, 10, false);
             Data.Competition.Participants.Add(new Driver("Carlos Sainz jr.", 0, car, TeamColors.Red));
             Data.Competition.Participants.Add(new Driver("Lewis Hamilton", 0, car, TeamColors.Green));
             Data.Competition.Participants.Add(new Driver("Max Verstappen", 0, car, TeamColors.Blue));
         }
 
-        //public static void AddTracks(List<Track> tracks)
         public static void AddTracks()
         {
-            //tracks.ForEach(track => Data.Competition.Tracks.Append(track));
             SectionTypes[] sections = new SectionTypes[] {
                 SectionTypes.StartGrid,
                 SectionTypes.RightCorner,

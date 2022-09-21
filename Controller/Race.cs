@@ -4,7 +4,7 @@ namespace Controller
 {
     public class Race
     {
-        #region Attribute
+        #region Attributes
         private Random _random;
         private Dictionary<Section, SectionData> _positions;
         #endregion
