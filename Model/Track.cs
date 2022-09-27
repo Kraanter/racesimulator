@@ -15,13 +15,23 @@ namespace Model
         public Track(string name, SectionTypes[] sections)
         {
             Name = name;
-            Sections = new LinkedList<Section>();
-            foreach (var section in sections)
-            {
-                Sections.Append(new Section(section));
-            }
+            Sections = SectionTypesToSections(sections);
         }
 
+        #endregion
+        
+        #region Methods
+        
+        private LinkedList<Section> SectionTypesToSections(SectionTypes[] sections)
+        {
+            var result = new LinkedList<Section>();
+            foreach (var section in sections)
+            {
+                result.AddLast(new Section(section));
+            }
+            return result;
+        }
+        
         #endregion
     }
 }
