@@ -27,6 +27,15 @@ namespace ControllerTest
             Assert.IsNull(result);
         }
 
+        [Test]
+        public void NextTrack_OneInQueue_ReturnTrack()
+        {
+            Track track = new Track("test", new SectionTypes[] {SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner});
+            _competition.Tracks.Enqueue(track);
+            Track result = _competition.NextTrack();
+            Assert.That(track, Is.EqualTo(result));
+        }
+
         #endregion
     }
 }

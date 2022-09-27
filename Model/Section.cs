@@ -14,6 +14,19 @@ namespace Model {
         }
 
         #endregion
+        
+        #region Methods
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is SectionTypes objSectionType)
+                return SectionType.Equals(objSectionType);
+            if (obj is Section objSection)
+                return SectionType.Equals(objSection.SectionType);
+            return false;
+        }
+        
+        #endregion
     }
 
     public enum SectionTypes {
