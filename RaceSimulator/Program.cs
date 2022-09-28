@@ -5,9 +5,8 @@ Data.Initialize();
 
 Data.NextRace();
 
-Visualisation.DrawTrack(Data.CurrentRace.Track);
-
 for (; ; )
 {
+    Visualisation.DrawTrack(Data.CurrentRace.Track);
     Thread.Sleep(100);
 }

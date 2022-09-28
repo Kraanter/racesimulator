@@ -74,14 +74,14 @@ public static class Visualisation
     {
         GetMinXY(track);
         Directions direction = Directions.Right;
-        int yOff = Console.CursorTop + 1;
+        int yOff = 2;
+        int xOff = 2;
         int x = Math.Abs(minX);
         int y = Math.Abs(minY);
-        
         foreach (Section section in track.Sections)
         {
             SectionTypes sectionType = section.SectionType;
-            DrawSection(sectionType, direction, x * 7, (y * 4) + yOff);
+            DrawSection(sectionType, direction, (x * 7) + xOff, (y * 4) + yOff);
             direction = getDirection(direction, sectionType);
             switch (direction)
             {
@@ -101,7 +101,7 @@ public static class Visualisation
         }
         Console.CursorVisible = false;
         Console.ResetColor();
-        Console.SetCursorPosition(0, Console.BufferHeight - 2);
+        Console.SetCursorPosition(0, Console.WindowHeight - 2);
     }
     
     private static void DrawSection(SectionTypes sectionType, Directions direction, int x, int y)
@@ -208,7 +208,7 @@ public static class Visualisation
             default:
                 throw new ArgumentOutOfRangeException(nameof(sectionType), sectionType, null);
         }
-        return null;
+        throw new ArgumentOutOfRangeException(nameof(sectionType), sectionType, null);
     }
     
     #endregion
