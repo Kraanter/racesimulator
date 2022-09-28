@@ -11,59 +11,59 @@ public static class Visualisation
     
     private static string[] _finishH =
     {
-        "────",
-        "  ┆ ",
-        "  ┆ ",
-        "────"
+        "───────",
+        "    ┆  ",
+        "    ┆  ",
+        "───────"
     };
     private static string[] _finishV =
     {
-        "│  │",
-        "│  │",
-        "│┄┄│",
-        "│  │"
+        "│     │",
+        "│     │",
+        "│┄┄┄┄┄│",
+        "│     │"
     };
     private static string[] _start = { 
-        "────", 
-        "  ] ", 
-        "  ] ", 
-        "────" 
+        "───────", 
+        "    ]  ", 
+        "  ]    ", 
+        "───────" 
     };
     private static string[] _cornerTR = { 
-        "───┐", 
-        "   │", 
-        "   │", 
-        "┐  │" 
+        "──────┐", 
+        "      │", 
+        "      │", 
+        "┐     │" 
     };
     private static string[] _cornerBR = { 
-        "┘  │", 
-        "   │", 
-        "   │", 
-        "───┘" 
+        "┘     │", 
+        "      │", 
+        "      │", 
+        "──────┘" 
     };
     private static string[] _cornerBL = { 
-        "│  └", 
-        "│   ", 
-        "│   ", 
-        "└───" 
+        "│     └", 
+        "│      ", 
+        "│      ", 
+        "└──────" 
     };
     private static string[] _cornerTL = { 
-        "┌───", 
-        "│   ", 
-        "│   ", 
-        "│  ┌" 
+        "┌──────", 
+        "│      ", 
+        "│      ", 
+        "│     ┌" 
     };
     private static string[] _straightH = { 
-        "────", 
-        "    ", 
-        "    ", 
-        "────" 
+        "───────", 
+        "       ", 
+        "       ", 
+        "───────" 
     };
     private static string[] _straightV = { 
-        "│  │", 
-        "│  │", 
-        "│  │", 
-        "│  │" 
+        "│     │", 
+        "│     │", 
+        "│     │", 
+        "│     │" 
     };
 
     #endregion
@@ -81,7 +81,7 @@ public static class Visualisation
         foreach (Section section in track.Sections)
         {
             SectionTypes sectionType = section.SectionType;
-            DrawSection(sectionType, direction, x * 4, (y * 4) + yOff);
+            DrawSection(sectionType, direction, x * 7, (y * 4) + yOff);
             direction = getDirection(direction, sectionType);
             switch (direction)
             {
@@ -101,6 +101,7 @@ public static class Visualisation
         }
         Console.CursorVisible = false;
         Console.ResetColor();
+        Console.SetCursorPosition(0, Console.BufferHeight - 2);
     }
     
     private static void DrawSection(SectionTypes sectionType, Directions direction, int x, int y)
