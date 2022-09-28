@@ -1,5 +1,6 @@
-﻿using System;
-using Model;
+﻿using Model;
+using Timer = System.Timers.Timer;
+
 namespace Controller
 {
     public class Race
@@ -7,27 +8,30 @@ namespace Controller
         #region Attributes
         private Random _random;
         private Dictionary<Section, SectionData> _positions;
+        private Timer _timer;
         #endregion
 
         #region Properties
 
-        public Track Track { get; set; }
-        public List<IParticipant> Participants { get; set; }
+        public Track Track { get; }
+        public List<IParticipant> Participants { get; }
         public DateTime StartTime { get; set; }
 
         #endregion
 
         #region Constructors
 
-        public Race(Track Track, List<IParticipant> Participants)
+        public Race(Track track, List<IParticipant> participants)
         {
-            this.Track = Track;
-            this.Participants = Participants;
+            this.Track = track;
+            this.Participants = participants;
             _random = new Random(DateTime.Now.Millisecond);
             _positions = new Dictionary<Section, SectionData>();
+            _timer = new Timer(500);
+            _timer.Elapsed += OnTimedEvent;
 
             RandomizeEquipment();
-            RandomizeStartPositions(Track, Participants);
+            RandomizeStartPositions(track, participants);
         }
 
         #endregion
@@ -74,6 +78,16 @@ namespace Controller
                     participantsCopy.Remove(data.Right);
                 }
             }
+        }
+        
+        private void OnTimedEvent(object source, EventArgs e)
+        {
+            
+        }
+
+        private void Start()
+        {
+            _timer.Enabled = true;
         }
 
         public override string ToString()
