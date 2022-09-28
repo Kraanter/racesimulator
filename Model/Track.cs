@@ -14,6 +14,7 @@ namespace Model
 
         public Track(string name, SectionTypes[] sections)
         {
+            if(sections[0] != SectionTypes.StartGrid) throw new ArgumentException("First section must be a start grid");
             Name = name;
             Sections = SectionTypesToSections(sections);
         }
