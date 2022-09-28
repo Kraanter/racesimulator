@@ -230,6 +230,11 @@ public static class Visualisation
         throw new ArgumentOutOfRangeException(nameof(sectionType), sectionType, null);
     }
 
+    public static void OnDriversChanged(object? obj, Race.DriversChangedEventArgs args)
+    {
+        DrawTrack(args.Track);
+    }
+
     #endregion
 }
 

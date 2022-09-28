@@ -80,15 +80,17 @@ namespace Controller
             }
         }
         
-        private void OnTimedEvent(object source, EventArgs e)
+        protected virtual void OnTimedEvent(object source, EventArgs e)
         {
-            
+
         }
 
-        private void Start()
+        public void Start()
         {
             _timer.Enabled = true;
         }
+
+        public event EventHandler<DriversChangedEventArgs> DriversChanged;
 
         public override string ToString()
         {
@@ -96,6 +98,11 @@ namespace Controller
         }
 
         #endregion
+        
+        public class DriversChangedEventArgs : EventArgs
+        {
+            public Track Track { get; set; }
+        }
     }
 }
 

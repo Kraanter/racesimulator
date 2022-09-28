@@ -1,8 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using System.Runtime.ConstrainedExecution;
-using Model;
-using static System.Collections.Specialized.BitVector32;
+﻿using Model;
+using RaceSimulator;
 
 namespace Controller
 {
@@ -75,6 +72,7 @@ namespace Controller
             Track newTrack = Data.Competition.NextTrack();
             if (newTrack == null) return;
             CurrentRace = new Race(newTrack, Data.Competition.Participants);
+            CurrentRace.DriversChanged += Visualisation.OnDriversChanged;
         }
 
         #endregion

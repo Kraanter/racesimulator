@@ -4,9 +4,9 @@ using RaceSimulator;
 Data.Initialize();
 
 Data.NextRace();
+Data.CurrentRace.Start();
 
 for (; ; )
 {
-    Visualisation.DrawTrack(Data.CurrentRace.Track);
     Thread.Sleep(100);
 }
