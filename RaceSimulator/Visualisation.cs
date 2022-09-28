@@ -1,3 +1,4 @@
+using Controller;
 using Model;
 
 namespace RaceSimulator;
@@ -12,57 +13,57 @@ public static class Visualisation
     private static string[] _finishH =
     {
         "───────",
-        "    ┆  ",
-        "    ┆  ",
+        "  L  ┆ ",
+        "   R ┆ ",
         "───────"
     };
     private static string[] _finishV =
     {
-        "│     │",
-        "│     │",
+        "│ R   │",
+        "│   L │",
         "│┄┄┄┄┄│",
         "│     │"
     };
     private static string[] _start = { 
         "───────", 
-        "    ]  ", 
-        "  ]    ", 
+        "    L] ", 
+        "  R]   ", 
         "───────" 
     };
     private static string[] _cornerTR = { 
         "──────┐", 
-        "      │", 
-        "      │", 
+        "    L │", 
+        "  R   │", 
         "┐     │" 
     };
     private static string[] _cornerBR = { 
         "┘     │", 
-        "      │", 
-        "      │", 
+        "  R   │", 
+        "    L │", 
         "──────┘" 
     };
     private static string[] _cornerBL = { 
         "│     └", 
-        "│      ", 
-        "│      ", 
+        "│   L  ", 
+        "│ R    ", 
         "└──────" 
     };
     private static string[] _cornerTL = { 
         "┌──────", 
-        "│      ", 
-        "│      ", 
+        "│ R    ", 
+        "│   L  ", 
         "│     ┌" 
     };
     private static string[] _straightH = { 
         "───────", 
-        "       ", 
-        "       ", 
+        "  L    ", 
+        "    R  ", 
         "───────" 
     };
     private static string[] _straightV = { 
         "│     │", 
-        "│     │", 
-        "│     │", 
+        "│ L   │", 
+        "│   R │", 
         "│     │" 
     };
 
@@ -81,7 +82,7 @@ public static class Visualisation
         foreach (Section section in track.Sections)
         {
             SectionTypes sectionType = section.SectionType;
-            DrawSection(sectionType, direction, (x * 7) + xOff, (y * 4) + yOff);
+            DrawSection(section, direction, x * 7 + xOff, (y * 4) + yOff);
             direction = getDirection(direction, sectionType);
             switch (direction)
             {
@@ -104,17 +105,24 @@ public static class Visualisation
         Console.SetCursorPosition(0, Console.WindowHeight - 2);
     }
     
-    private static void DrawSection(SectionTypes sectionType, Directions direction, int x, int y)
+    private static void DrawSection(Section section, Directions direction, int x, int y)
     {
         Console.BackgroundColor = ConsoleColor.Black;
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        
-        foreach(string sectionPart in GetSection(sectionType, direction))
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        SectionData sectionData = Data.CurrentRace.GetSectionData(section);
+        foreach(string sectionPart in GetSection(section.SectionType, direction))
         {
             Console.SetCursorPosition(x , y);
-            Console.Write(sectionPart);
+            Console.Write(AddParticipantToSection(sectionPart, sectionData.Left, sectionData.Right));
             y++;
         }
+    }
+    
+    private static string AddParticipantToSection(string part, IParticipant left, IParticipant right)
+    {
+        part = part.Replace("L", left?.Name.Substring(0, 1) ?? " ");
+        part = part.Replace("R", right?.Name.Substring(0, 1) ?? " ");
+        return part;
     }
 
     private static void GetMinXY(Track track)
@@ -169,7 +177,18 @@ public static class Visualisation
     }
     private static string[] GetSection(SectionTypes sectionType, Directions direction)
     {
+        bool reverse = sectionType != SectionTypes.LeftCorner && sectionType != SectionTypes.RightCorner && 
+                       (direction == Directions.Down || direction == Directions.Left);
         bool vertical = direction == Directions.Up || direction == Directions.Down;
+        string[] section = _GetSection(sectionType, direction, vertical);
+        if (reverse)
+            if (vertical) section = section.Reverse().ToArray();
+            else section = section.Select(s => new string(s.Reverse().ToArray())).ToArray();
+        return section;
+    }
+
+    private static string[] _GetSection(SectionTypes sectionType, Directions direction, bool vertical)
+    {
         switch (sectionType)
         {
             case SectionTypes.StartGrid:
@@ -210,7 +229,7 @@ public static class Visualisation
         }
         throw new ArgumentOutOfRangeException(nameof(sectionType), sectionType, null);
     }
-    
+
     #endregion
 }
 

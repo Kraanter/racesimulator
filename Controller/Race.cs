@@ -34,7 +34,7 @@ namespace Controller
 
         #region Methods
 
-        private SectionData GetSectionData (Section section)
+        public SectionData GetSectionData (Section section)
         {
             if (_positions.ContainsKey(section))
                 return _positions[section];
@@ -55,7 +55,7 @@ namespace Controller
         private void RandomizeStartPositions(Track track, List<IParticipant> participants)
         {
             List<IParticipant> participantsCopy = new List<IParticipant>(participants);
-            foreach (Section section in track.Sections)
+            foreach (Section section in track.Sections.Reverse())
             {
                 if (section.SectionType != SectionTypes.StartGrid)
                     continue;
