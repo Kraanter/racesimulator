@@ -17,7 +17,7 @@ namespace Model
         public void AddParticipant(IParticipant participant, LinkedListNode<Section> currentSection, int distance, Random random)
         {
             // if (Left != null && Right != null) ; //throw new Exception("Track section is full");
-            if (Left == null && random.Next(1) == 1 || Right != null)
+            if (Left == null && random.Next(2) == 1 || Right != null)
             {
                 Left = participant;
                 DistanceLeft = distance;

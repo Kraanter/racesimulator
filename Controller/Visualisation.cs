@@ -12,16 +12,16 @@ public static class Visualisation
     
     private static string[] _finishH =
     {
-        "───────",
-        "  L  ┆ ",
-        "   R ┆ ",
-        "───────"
+        "─────┰─",
+        "  L  ┊ ",
+        "   R ┊ ",
+        "─────┸─"
     };
     private static string[] _finishV =
     {
         "│ R   │",
         "│   L │",
-        "│┄┄┄┄┄│",
+        "┝┄┄┄┄┄┥",
         "│     │"
     };
     private static string[] _start = { 
