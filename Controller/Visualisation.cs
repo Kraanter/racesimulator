@@ -5,6 +5,9 @@ namespace RaceSimulator;
 
 public static class Visualisation
 {
+    public static ConsoleColor BackgroundColor = ConsoleColor.Black;
+    public static ConsoleColor ForegroundColor = ConsoleColor.White;
+    public static ConsoleColor PlayerColor = ConsoleColor.Black;
     private static int minX = 0;
     private static int minY = 0;
     
@@ -107,22 +110,42 @@ public static class Visualisation
     
     private static void DrawSection(Section section, Directions direction, int x, int y)
     {
-        Console.BackgroundColor = ConsoleColor.Black;
-        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.BackgroundColor = BackgroundColor;
+        Console.ForegroundColor = ForegroundColor;
         SectionData sectionData = Data.CurrentRace.GetSectionData(section);
         foreach(string sectionPart in GetSection(section.SectionType, direction))
         {
             Console.SetCursorPosition(x , y);
-            Console.Write(AddParticipantToSection(sectionPart, sectionData.Left, sectionData.Right));
+            DrawSectionPart(sectionPart, sectionData);
             y++;
         }
     }
     
-    private static string AddParticipantToSection(string part, IParticipant left, IParticipant right)
+    private static void DrawSectionPart(string part, SectionData sectionData)
     {
-        part = part.Replace("L", left?.Name.Substring(0, 1) ?? " ");
-        part = part.Replace("R", right?.Name.Substring(0, 1) ?? " ");
-        return part;
+        foreach (char ch in part)
+        {
+            switch (ch)
+            {
+                case 'L':
+                    Console.BackgroundColor = sectionData.Left?.GetConsoleColor() ?? BackgroundColor;
+                    Console.ForegroundColor = PlayerColor;
+                    Console.Write(sectionData.Left?.Name[0] ?? ' ');
+                    Console.ForegroundColor = ForegroundColor;
+                    Console.BackgroundColor = BackgroundColor;
+                    break;
+                case 'R':
+                    Console.BackgroundColor = sectionData.Right?.GetConsoleColor() ?? BackgroundColor;
+                    Console.ForegroundColor = PlayerColor;
+                    Console.Write(sectionData.Right?.Name[0] ?? ' ');
+                    Console.ForegroundColor = ForegroundColor;
+                    Console.BackgroundColor = BackgroundColor;
+                    break;
+                default:
+                    Console.Write(ch);
+                    break;
+            }
+        }
     }
 
     private static void GetMinXY(Track track)
@@ -164,7 +187,6 @@ public static class Visualisation
             case SectionTypes.StartGrid:
                 return Directions.Right;
             case SectionTypes.Finish:
-                return direction;
             case SectionTypes.Straight:
                 return direction;
             case SectionTypes.RightCorner:

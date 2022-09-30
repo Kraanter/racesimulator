@@ -29,6 +29,19 @@ namespace Model {
             return $"{Name} | Points: {Points} | {Equipment}";
         }
 
+        public ConsoleColor GetConsoleColor()
+        {
+            return TeamColor switch
+            {
+                TeamColors.Red => ConsoleColor.Red,
+                TeamColors.Blue => ConsoleColor.Blue,
+                TeamColors.Green => ConsoleColor.Green,
+                TeamColors.Yellow => ConsoleColor.Yellow,
+                TeamColors.Grey => ConsoleColor.Gray,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
         #endregion
     }
 }
