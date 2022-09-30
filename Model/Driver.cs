@@ -7,16 +7,16 @@ namespace Model {
         public int Points { get; set; }
         public IEquipment Equipment { get; set; }
         public TeamColors TeamColor { get; set; }
+        public LinkedListNode<Section> CurrentSection { get; set; }
 
         #endregion
 
         #region Constructors
 
-        public Driver(string name, int points, IEquipment equipment, TeamColors teamColor)
+        public Driver(string name, TeamColors teamColor)
         {
             Name = name;
-            Points = points;
-            Equipment = equipment;
+            Points = 0;
             TeamColor = teamColor;
         }
 

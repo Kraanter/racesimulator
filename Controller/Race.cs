@@ -1,4 +1,6 @@
-﻿using Model;
+﻿using System.Security.Cryptography.X509Certificates;
+using Model;
+using RaceSimulator;
 using Timer = System.Timers.Timer;
 
 namespace Controller
@@ -27,7 +29,7 @@ namespace Controller
             this.Participants = participants;
             _random = new Random(DateTime.Now.Millisecond);
             _positions = new Dictionary<Section, SectionData>();
-            _timer = new Timer(500);
+            _timer = new Timer(250);
             _timer.Elapsed += OnTimedEvent;
 
             RandomizeEquipment();
@@ -51,38 +53,59 @@ namespace Controller
         {
             foreach (var participant in this.Participants)
             {
-                participant.Equipment.Quality = _random.Next(50);
-                participant.Equipment.Speed = _random.Next(50);
+                Car car = new Car(_random.Next(1, 10), _random.Next(4, 10), _random.Next(7, 10));
+                participant.Equipment = car;
             }
         }
 
         private void RandomizeStartPositions(Track track, List<IParticipant> participants)
         {
             List<IParticipant> participantsCopy = new List<IParticipant>(participants);
-            foreach (Section section in track.Sections.Reverse())
+            for (LinkedListNode<Section> section = track.Sections.Last;
+                 section != null && participantsCopy.Count > 0;
+                 section = section.Previous)
             {
-                if (section.SectionType != SectionTypes.StartGrid)
-                    continue;
                 if (participantsCopy.Count == 0)
-                    return;
-                SectionData data = GetSectionData(section);
-                if (participantsCopy.Count > 0)
-                {
-                    data.Left = participantsCopy[_random.Next(participantsCopy.Count)];
-                    participantsCopy.Remove(data.Left);
-                }
-
-                if (participantsCopy.Count > 0)
-                {
-                    data.Right = participantsCopy[_random.Next(participantsCopy.Count)];
-                    participantsCopy.Remove(data.Right);
-                }
+                    break;
+                if (section.Value.SectionType != SectionTypes.StartGrid)
+                    continue;
+                int randomIndex = _random.Next(participantsCopy.Count);
+                IParticipant randomParticipant = participantsCopy[randomIndex];
+                SectionData sectionData = GetSectionData(section.ValueRef);
+                sectionData.AddParticipant(randomParticipant, section, 0, _random);
+                participantsCopy.RemoveAt(randomIndex); 
+                if(participantsCopy.Count == 0)
+                    break;
+                randomIndex = _random.Next(participantsCopy.Count);
+                IParticipant randomParticipant1 = participantsCopy[randomIndex];
+                sectionData.AddParticipant(randomParticipant1, section, 0, _random);
+                participantsCopy.RemoveAt(randomIndex);
             }
         }
         
         protected virtual void OnTimedEvent(object source, EventArgs e)
         {
-
+            foreach (IParticipant participant in Participants)
+            {
+                LinkedListNode<Section> currentSection = participant.CurrentSection;
+                int distanceTraveled = participant.Equipment.GetDistanceTraveled();
+                SectionData sectionData = GetSectionData(currentSection.ValueRef);
+                int newPosition = distanceTraveled + sectionData.GetParticipantPosition(participant);
+                bool toNext = newPosition >= Section.SectionLength;
+                if (toNext)
+                {
+                    participant.CurrentSection = currentSection.Next ?? currentSection.List.First;
+                    newPosition -= Section.SectionLength;
+                    sectionData.RemoveParticipant(participant);
+                    SectionData sectionDataNew = GetSectionData(participant.CurrentSection.ValueRef);
+                    sectionDataNew.AddParticipant(participant, participant.CurrentSection, newPosition, _random);
+                }
+                else
+                {
+                    sectionData.MoveParticipant(participant, distanceTraveled);
+                }
+            }
+            DriversChanged.Invoke(this, new DriversChangedEventArgs() {Track = this.Track});
         }
 
         public void Start()

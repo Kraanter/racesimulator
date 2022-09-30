@@ -3,7 +3,8 @@ using RaceSimulator;
 
 Data.Initialize();
 
-Data.NextRace();
+Data.NextRace(); 
+Thread.Sleep(1000);
 Data.CurrentRace.Start();
 
 for (; ; )

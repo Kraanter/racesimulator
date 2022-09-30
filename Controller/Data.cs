@@ -24,10 +24,9 @@ namespace Controller
 
         public static void AddParticipants()
         {
-            Car car = new Car(10, 10, 10, false);
-            Data.Competition.Participants.Add(new Driver("Carlos Sainz jr.", 0, car, TeamColors.Red));
-            Data.Competition.Participants.Add(new Driver("Lewis Hamilton", 0, car, TeamColors.Green));
-            Data.Competition.Participants.Add(new Driver("Max Verstappen", 0, car, TeamColors.Blue));
+            Data.Competition.Participants.Add(new Driver("Carlos Sainz jr.", TeamColors.Red));
+            Data.Competition.Participants.Add(new Driver("Lewis Hamilton", TeamColors.Green));
+            Data.Competition.Participants.Add(new Driver("Max Verstappen", TeamColors.Blue));
         }
 
         public static void AddTracks()

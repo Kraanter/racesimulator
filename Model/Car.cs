@@ -13,11 +13,11 @@ namespace Model {
 
         #region Constructors
 
-        public Car(int quality, int performance, int speed, bool isBroken) {
+        public Car(int quality, int performance, int speed) {
             Quality = quality;
             Performance = performance;
             Speed = speed;
-            IsBroken = isBroken;
+            IsBroken = false;
         }
 
         #endregion
@@ -27,6 +27,11 @@ namespace Model {
         public override string ToString()
         {
             return $"Car[ Quality: {Quality}, Performance: {Performance}, Speed: {Speed}, IsBroken: {IsBroken}]";
+        }
+        
+        public int GetDistanceTraveled()
+        {
+            return Performance * Speed;
         }
 
         #endregion

@@ -3,6 +3,7 @@ namespace Model {
     public class Section {
         #region Properties
 
+        public static int SectionLength = 100;
         public SectionTypes SectionType { get; set; }
 
         #endregion
