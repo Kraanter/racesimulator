@@ -1,5 +1,4 @@
 ﻿using Model;
-using RaceSimulator;
 
 namespace Controller
 {
@@ -71,7 +70,6 @@ namespace Controller
             Track newTrack = Data.Competition.NextTrack();
             if (newTrack == null) return;
             CurrentRace = new Race(newTrack, Data.Competition.Participants);
-            CurrentRace.DriversChanged += Visualisation.OnDriversChanged;
         }
 
         #endregion

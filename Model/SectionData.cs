@@ -52,13 +52,14 @@ namespace Model
             {
                 Left = null;
                 DistanceLeft = 0;
+                IsFull = false;
             }
             else if (Right == participant)
             {
                 Right = null;
                 DistanceRight = 0;
+                IsFull = false;
             }
-            IsFull = Left != null && Right != null;
         }
         
         public int GetParticipantPosition(IParticipant participant)

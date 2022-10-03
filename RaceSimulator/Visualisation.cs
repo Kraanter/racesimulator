@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using Controller;
 using Model;
 
@@ -29,8 +31,8 @@ public static class Visualisation
     };
     private static string[] _start = { 
         "───────", 
-        "    L] ", 
-        "  R]   ", 
+        "   L]  ", 
+        " R]    ", 
         "───────" 
     };
     private static string[] _cornerTR = { 
@@ -74,6 +76,13 @@ public static class Visualisation
     
     #region Methods
 
+    public static void Initialize()
+    {
+        Console.Clear();
+        Console.CursorVisible = false;
+        Data.CurrentRace.DriversChanged += OnDriversChanged;
+    }
+
     public static void DrawTrack(Track track)
     {
         GetMinXY(track);
@@ -103,7 +112,6 @@ public static class Visualisation
                     break;
             }
         }
-        Console.CursorVisible = false;
         Console.ResetColor();
         Console.SetCursorPosition(0, Console.WindowHeight - 2);
     }
