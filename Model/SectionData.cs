@@ -9,6 +9,7 @@ namespace Model
         public int DistanceLeft { get; set; }
         public IParticipant Right { get; set; }
         public int DistanceRight { get; set; }
+        public bool IsFull { get; private set; }
 
         #endregion
 
@@ -16,7 +17,7 @@ namespace Model
         
         public void AddParticipant(IParticipant participant, LinkedListNode<Section> currentSection, int distance, Random random)
         {
-            // if (Left != null && Right != null) ; //throw new Exception("Track section is full");
+            if (IsFull) return;
             if (Left == null && random.Next(2) == 1 || Right != null)
             {
                 Left = participant;
@@ -27,6 +28,7 @@ namespace Model
                 Right = participant;
                 DistanceRight = distance;
             }
+            IsFull = Left != null && Right != null;
             participant.CurrentSection = currentSection;
         }
         
@@ -55,9 +57,8 @@ namespace Model
             {
                 Right = null;
                 DistanceRight = 0;
-            } 
-            else 
-                throw new Exception("Participant not found");
+            }
+            IsFull = Left != null && Right != null;
         }
         
         public int GetParticipantPosition(IParticipant participant)

@@ -94,7 +94,11 @@ namespace Controller
                 bool toNext = newPosition >= Section.SectionLength;
                 if (toNext)
                 {
-                    participant.CurrentSection = currentSection.Next ?? currentSection.List.First;
+                    do
+                    {
+                        participant.CurrentSection = currentSection.Next ?? currentSection.List.First;
+                    } while (GetSectionData(participant.CurrentSection.ValueRef).IsFull);
+                    // participant.CurrentSection = currentSection.Next ?? currentSection.List.First;
                     newPosition -= Section.SectionLength;
                     sectionData.RemoveParticipant(participant);
                     SectionData sectionDataNew = GetSectionData(participant.CurrentSection.ValueRef);
