@@ -70,18 +70,22 @@ namespace Controller
                     break;
                 if (section.Value.SectionType != SectionTypes.StartGrid)
                     continue;
-                int randomIndex = _random.Next(participantsCopy.Count);
-                IParticipant randomParticipant = participantsCopy[randomIndex];
-                SectionData sectionData = GetSectionData(section.ValueRef);
-                sectionData.AddParticipant(randomParticipant, section, 0, _random);
-                participantsCopy.RemoveAt(randomIndex); 
-                if(participantsCopy.Count == 0)
-                    break;
-                randomIndex = _random.Next(participantsCopy.Count);
-                IParticipant randomParticipant1 = participantsCopy[randomIndex];
-                sectionData.AddParticipant(randomParticipant1, section, 0, _random);
-                participantsCopy.RemoveAt(randomIndex);
+                int startCount = participantsCopy.Count % 2;
+                do
+                {
+                    IParticipant randomParticipant = GetRandomItem(participantsCopy);
+                    SectionData sectionData = GetSectionData(section.ValueRef);
+                    sectionData.AddParticipant(randomParticipant, section, 0, _random);
+                } while (participantsCopy.Count % 2 != startCount && participantsCopy.Count != 0);
             }
+        }
+
+        private T GetRandomItem<T>(List<T> list)
+        {
+            int randomIndex = _random.Next(list.Count);
+            T randomItem = list[randomIndex];
+            list.RemoveAt(randomIndex);
+            return randomItem;
         }
         
         protected virtual void OnTimedEvent(object source, EventArgs e)
