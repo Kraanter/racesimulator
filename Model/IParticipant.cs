@@ -7,6 +7,7 @@ namespace Model {
         public TeamColors TeamColor { get; set; }
         public LinkedListNode<Section> CurrentSection { get; set; }
         public ConsoleColor GetConsoleColor();
+        public int Laps { get; set; }
     }
 
     public enum TeamColors {

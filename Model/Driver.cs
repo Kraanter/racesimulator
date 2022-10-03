@@ -8,6 +8,7 @@ namespace Model {
         public IEquipment Equipment { get; set; }
         public TeamColors TeamColor { get; set; }
         public LinkedListNode<Section> CurrentSection { get; set; }
+        public  int Laps { get; set; }
 
         #endregion
 
@@ -18,6 +19,7 @@ namespace Model {
             Name = name;
             Points = 0;
             TeamColor = teamColor;
+            Laps = 0;
         }
 
         #endregion

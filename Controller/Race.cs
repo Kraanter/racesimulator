@@ -17,7 +17,7 @@ namespace Controller
         #region Properties
 
         public Track Track { get; }
-        public List<IParticipant> Participants { get; }
+        public List<IParticipant> Participants { get; private set; }
         public DateTime StartTime { get; set; }
 
         #endregion
@@ -26,11 +26,12 @@ namespace Controller
 
         public Race(Track track, List<IParticipant> participants)
         {
-            this.Track = track;
-            this.Participants = participants;
-            _random = new Random(DateTime.Now.Millisecond);
+            Track = track;
+            Participants = participants;
+            // todo: Random is niet random hoort DateTime.Now.Millisecond
+            _random = new Random(69);
             _positions = new Dictionary<Section, SectionData>();
-            _timer = new Timer(250);
+            _timer = new Timer(500);
             _timer.Elapsed += OnTimedEvent;
 
             RandomizeEquipment();
@@ -92,6 +93,7 @@ namespace Controller
         {
             foreach (IParticipant participant in Participants)
             {
+                if(participant.Laps == 4) continue;
                 LinkedListNode<Section> currentSection = participant.CurrentSection;
                 int distanceTraveled = participant.Equipment.GetDistanceTraveled();
                 SectionData sectionData = GetSectionData(currentSection.ValueRef);
@@ -103,9 +105,16 @@ namespace Controller
                     {
                         participant.CurrentSection = currentSection.Next ?? currentSection.List.First;
                     } while (GetSectionData(participant.CurrentSection.ValueRef).IsFull);
-                    // participant.CurrentSection = currentSection.Next ?? currentSection.List.First;
-                    newPosition -= Section.SectionLength;
                     sectionData.RemoveParticipant(participant);
+                    if (currentSection.Value.SectionType == SectionTypes.Finish)
+                    {
+                        participant.Laps++;
+                        if (participant.Laps == 4)
+                        {
+                            continue;
+                        }
+                    }
+                    newPosition -= Section.SectionLength;
                     SectionData sectionDataNew = GetSectionData(participant.CurrentSection.ValueRef);
                     sectionDataNew.AddParticipant(participant, participant.CurrentSection, newPosition, _random);
                 }
