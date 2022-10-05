@@ -69,7 +69,7 @@ namespace Controller
         {
             Track newTrack = Data.Competition.NextTrack();
             if (newTrack == null) return;
-            CurrentRace = new Race(newTrack, Data.Competition.Participants);
+            CurrentRace = new Race(newTrack, 1, Data.Competition.Participants);
         }
 
         #endregion

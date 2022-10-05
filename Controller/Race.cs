@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 using Model;
 using Timer = System.Timers.Timer;
 
@@ -9,9 +11,14 @@ namespace Controller
     public class Race
     {
         #region Attributes
+
         private Random _random;
         private Dictionary<Section, SectionData> _positions;
         private Timer _timer;
+        private int _numOfLaps;
+        private Queue<IParticipant> _finished;
+        private int count = 0;
+
         #endregion
 
         #region Properties
@@ -24,15 +31,17 @@ namespace Controller
 
         #region Constructors
 
-        public Race(Track track, List<IParticipant> participants)
+        public Race(Track track, int numOfLaps, List<IParticipant> participants)
         {
             Track = track;
             Participants = participants;
+            _finished = new Queue<IParticipant>();
             // todo: Random is niet random hoort DateTime.Now.Millisecond
             _random = new Random(69);
             _positions = new Dictionary<Section, SectionData>();
-            _timer = new Timer(500);
+            _timer = new Timer(250);
             _timer.Elapsed += OnTimedEvent;
+            _numOfLaps = numOfLaps + 1;
 
             RandomizeEquipment();
             RandomizeStartPositions(track, participants);
@@ -42,13 +51,16 @@ namespace Controller
 
         #region Methods
 
-        public SectionData GetSectionData (Section section)
+        public SectionData GetSectionData(Section section)
         {
-            if (_positions.ContainsKey(section))
+            count++;
+            if (_positions.TryGetValue(section, out SectionData sec))
+                return sec;
+            else
+            {
+                _positions.Add(section, new SectionData());
                 return _positions[section];
-            SectionData newSecData = new SectionData();
-            _positions.Add(section, newSecData);
-            return newSecData;
+            }
         }
 
         private void RandomizeEquipment()
@@ -88,32 +100,47 @@ namespace Controller
             list.RemoveAt(randomIndex);
             return randomItem;
         }
-        
+
         protected virtual void OnTimedEvent(object source, EventArgs e)
         {
+            if (_finished.Count == Participants.Count)
+            {
+                End();
+                return;
+            }
+
+            _timer.Stop();
             foreach (IParticipant participant in Participants)
             {
-                if(participant.Laps == 4) continue;
+                if (participant.Laps == _numOfLaps) continue;
                 LinkedListNode<Section> currentSection = participant.CurrentSection;
                 int distanceTraveled = participant.Equipment.GetDistanceTraveled();
                 SectionData sectionData = GetSectionData(currentSection.ValueRef);
+                Debug.WriteLine(
+                    $"{participant.Name} => {sectionData} => {sectionData.GetParticipantPosition(participant)}");
                 int newPosition = distanceTraveled + sectionData.GetParticipantPosition(participant);
                 bool toNext = newPosition >= Section.SectionLength;
                 if (toNext)
                 {
-                    do
+                    participant.CurrentSection = currentSection.Next ?? currentSection.List.First;
+                    while (GetSectionData(participant.CurrentSection.ValueRef).IsFull())
                     {
-                        participant.CurrentSection = currentSection.Next ?? currentSection.List.First;
-                    } while (GetSectionData(participant.CurrentSection.ValueRef).IsFull);
+                        participant.CurrentSection = participant.CurrentSection.Next ?? currentSection.List.First;
+                    }
+
+                    ;
                     sectionData.RemoveParticipant(participant);
                     if (currentSection.Value.SectionType == SectionTypes.Finish)
                     {
                         participant.Laps++;
-                        if (participant.Laps == 4)
+                        if (participant.Laps == _numOfLaps)
                         {
+                            participant.Points = Participants.Count - _finished.Count;
+                            _finished.Enqueue(participant);
                             continue;
                         }
                     }
+
                     newPosition -= Section.SectionLength;
                     SectionData sectionDataNew = GetSectionData(participant.CurrentSection.ValueRef);
                     sectionDataNew.AddParticipant(participant, participant.CurrentSection, newPosition, _random);
@@ -123,12 +150,28 @@ namespace Controller
                     sectionData.MoveParticipant(participant, distanceTraveled);
                 }
             }
-            DriversChanged.Invoke(this, new DriversChangedEventArgs() {Track = this.Track});
+
+            DriversChanged.Invoke(this, new DriversChangedEventArgs() { Track = this.Track });
+            _timer.Start();
         }
 
         public void Start()
         {
             _timer.Enabled = true;
+        }
+
+        public void End()
+        {
+            _timer.Enabled = false;
+            Thread.Sleep(500);
+            Debug.WriteLine("COUNT " + _finished.Count);
+            Console.Clear();
+            for (IParticipant participant = _finished.Dequeue();
+                 _finished.Count >= 0;
+                 participant = _finished.Dequeue())
+            {
+                Console.WriteLine(participant);
+            }
         }
 
         public event EventHandler<DriversChangedEventArgs> DriversChanged;
@@ -139,11 +182,10 @@ namespace Controller
         }
 
         #endregion
-        
+
         public class DriversChangedEventArgs : EventArgs
         {
             public Track Track { get; set; }
         }
     }
 }
-

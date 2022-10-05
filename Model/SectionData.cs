@@ -9,15 +9,14 @@ namespace Model
         public int DistanceLeft { get; set; }
         public IParticipant Right { get; set; }
         public int DistanceRight { get; set; }
-        public bool IsFull { get; private set; }
-
+        public bool IsFull() => Right != null && Left != null;
         #endregion
 
         #region Methods
         
         public void AddParticipant(IParticipant participant, LinkedListNode<Section> currentSection, int distance, Random random)
         {
-            if (IsFull) return;
+            if (IsFull()) return;
             if (Left == null && random.Next(2) == 1 || Right != null)
             {
                 Left = participant;
@@ -28,7 +27,7 @@ namespace Model
                 Right = participant;
                 DistanceRight = distance;
             }
-            IsFull = Left != null && Right != null;
+            // IsFull = Left != null && Right != null;
             participant.CurrentSection = currentSection;
         }
         
@@ -42,8 +41,6 @@ namespace Model
             {
                 DistanceRight += distance;
             }
-            else 
-                throw new Exception("Participant not found");
         }
         
         public void RemoveParticipant(IParticipant participant)
@@ -52,13 +49,13 @@ namespace Model
             {
                 Left = null;
                 DistanceLeft = 0;
-                IsFull = false;
+                // IsFull = false;
             }
             else if (Right == participant)
             {
                 Right = null;
                 DistanceRight = 0;
-                IsFull = false;
+                // IsFull = false;
             }
         }
         
@@ -68,8 +65,12 @@ namespace Model
                 return DistanceLeft;
             else if (Right == participant)
                 return DistanceRight;
-            else
-                throw new Exception("Participant not found");
+            return 0;
+        }
+
+        public override string ToString()
+        {
+            return $"Left: {Left?.Name} {DistanceLeft}m, Right: {Right?.Name} {DistanceRight}m";
         }
 
         #endregion
