@@ -86,11 +86,10 @@ public static class Visualisation
 
     public static void OnRaceChanged(Race oldRace, Race newRace)
     {
-        Console.WriteLine("TICK "+ newRace.Track.Name);
-        newRace.DriversChanged += OnDriversChanged;
-        newRace.RaceChanged += OnRaceChanged;
         oldRace.DriversChanged -= OnDriversChanged;
+        newRace.DriversChanged += OnDriversChanged;
         oldRace.RaceChanged -= OnRaceChanged;
+        newRace.RaceChanged += OnRaceChanged;
     }
     
     public static void DrawTrack(Track track)

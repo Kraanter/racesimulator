@@ -167,11 +167,13 @@ namespace Controller
             Console.Clear();
             while (_finished.Count > 0)
             {
-                Console.WriteLine(_finished.Dequeue());
+                IParticipant participant = _finished.Dequeue();
+                Console.WriteLine(participant);
+                participant.Laps = 0;
             }
             Thread.Sleep(1000);
             Console.Clear();
-            Data.Competition.NextTrack();
+            Data.NextRace();
             RaceChanged.Invoke(this, Data.CurrentRace);
         }
 
