@@ -2,10 +2,7 @@
 using RaceSimulator;
 
 Data.Initialize();
-
-Data.NextRace();
 Visualisation.Initialize();
-Data.CurrentRace.Start();
 
 for (; ; )
 {

@@ -8,6 +8,7 @@ using Timer = System.Timers.Timer;
 
 namespace Controller
 {
+    public delegate void RaceChangedDelegate(Race oldRace, Race newRace);
     public class Race
     {
         #region Attributes
@@ -116,8 +117,6 @@ namespace Controller
                 LinkedListNode<Section> currentSection = participant.CurrentSection;
                 int distanceTraveled = participant.Equipment.GetDistanceTraveled();
                 SectionData sectionData = GetSectionData(currentSection.ValueRef);
-                Debug.WriteLine(
-                    $"{participant.Name} => {sectionData} => {sectionData.GetParticipantPosition(participant)}");
                 int newPosition = distanceTraveled + sectionData.GetParticipantPosition(participant);
                 bool toNext = newPosition >= Section.SectionLength;
                 if (toNext)
@@ -151,29 +150,32 @@ namespace Controller
                 }
             }
 
-            DriversChanged.Invoke(this, new DriversChangedEventArgs() { Track = this.Track });
+            DriversChanged?.Invoke(this, new DriversChangedEventArgs() { Track = this.Track });
             _timer.Start();
         }
 
         public void Start()
         {
-            _timer.Enabled = true;
+            StartTime = DateTime.Now;
+            _timer.Start();
+            DriversChanged?.Invoke(this, new DriversChangedEventArgs() { Track = Track });
         }
 
         public void End()
         {
             _timer.Enabled = false;
-            Thread.Sleep(500);
-            Debug.WriteLine("COUNT " + _finished.Count);
             Console.Clear();
-            for (IParticipant participant = _finished.Dequeue();
-                 _finished.Count >= 0;
-                 participant = _finished.Dequeue())
+            while (_finished.Count > 0)
             {
-                Console.WriteLine(participant);
+                Console.WriteLine(_finished.Dequeue());
             }
+            Thread.Sleep(1000);
+            Console.Clear();
+            Data.Competition.NextTrack();
+            RaceChanged.Invoke(this, Data.CurrentRace);
         }
 
+        public event RaceChangedDelegate RaceChanged;
         public event EventHandler<DriversChangedEventArgs> DriversChanged;
 
         public override string ToString()

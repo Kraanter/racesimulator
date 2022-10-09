@@ -81,8 +81,18 @@ public static class Visualisation
         Console.Clear();
         Console.CursorVisible = false;
         Data.CurrentRace.DriversChanged += OnDriversChanged;
+        Data.CurrentRace.RaceChanged += OnRaceChanged;
     }
 
+    public static void OnRaceChanged(Race oldRace, Race newRace)
+    {
+        Console.WriteLine("TICK "+ newRace.Track.Name);
+        newRace.DriversChanged += OnDriversChanged;
+        newRace.RaceChanged += OnRaceChanged;
+        oldRace.DriversChanged -= OnDriversChanged;
+        oldRace.RaceChanged -= OnRaceChanged;
+    }
+    
     public static void DrawTrack(Track track)
     {
         GetMinXY(track);

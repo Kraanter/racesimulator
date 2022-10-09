@@ -19,6 +19,7 @@ namespace Controller
 
             Data.AddParticipants();
             Data.AddTracks();
+            Data.NextRace();
         }
 
         public static void AddParticipants()
@@ -30,7 +31,7 @@ namespace Controller
 
         public static void AddTracks()
         {
-            SectionTypes[] sections = new SectionTypes[] {
+            SectionTypes[] Monza = new SectionTypes[] {
                 SectionTypes.StartGrid,
                 SectionTypes.StartGrid,
                 SectionTypes.Finish,
@@ -60,9 +61,21 @@ namespace Controller
                 SectionTypes.LeftCorner,
                 SectionTypes.LeftCorner,
             };
-            Data.Competition.Tracks.Enqueue(new Track("Monza", sections));
-            Data.Competition.Tracks.Enqueue(new Track("Zandvoort", sections));
-            Data.Competition.Tracks.Enqueue(new Track("Spa Francorchamps", sections));
+            SectionTypes[] Zandvoort = new SectionTypes[] {
+                SectionTypes.StartGrid,
+                SectionTypes.StartGrid,
+                SectionTypes.Finish,
+                SectionTypes.RightCorner,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.RightCorner
+            };
+            Data.Competition.Tracks.Enqueue(new Track("Monza", Zandvoort));
+            Data.Competition.Tracks.Enqueue(new Track("Zandvoort", Monza));
+            Data.Competition.Tracks.Enqueue(new Track("Spa Francorchamps", Monza));
         }
 
         public static void NextRace()
@@ -70,6 +83,7 @@ namespace Controller
             Track newTrack = Data.Competition.NextTrack();
             if (newTrack == null) return;
             CurrentRace = new Race(newTrack, 1, Data.Competition.Participants);
+            CurrentRace.Start();
         }
 
         #endregion
