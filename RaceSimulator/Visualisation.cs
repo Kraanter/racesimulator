@@ -87,8 +87,18 @@ public static class Visualisation
     public static void OnRaceChanged(Race oldRace, Race newRace)
     {
         oldRace.DriversChanged -= OnDriversChanged;
-        newRace.DriversChanged += OnDriversChanged;
         oldRace.RaceChanged -= OnRaceChanged;
+        Console.Clear();
+        Data.Competition.Participants.OrderBy(p => p.Points);
+        foreach (IParticipant participant in Data.Competition.Participants.OrderBy(p => p.Points))
+        {
+            Console.WriteLine(participant);
+        }
+        if (newRace is null)
+            return;
+        Thread.Sleep(1000);
+        Console.Clear();
+        newRace.DriversChanged += OnDriversChanged;
         newRace.RaceChanged += OnRaceChanged;
     }
     

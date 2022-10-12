@@ -81,7 +81,11 @@ namespace Controller
         public static void NextRace()
         {
             Track newTrack = Data.Competition.NextTrack();
-            if (newTrack == null) return;
+            if (newTrack == null)
+            {
+                CurrentRace = null;
+                return;
+            }
             CurrentRace = new Race(newTrack, 1, Data.Competition.Participants);
             CurrentRace.Start();
         }

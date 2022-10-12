@@ -134,7 +134,7 @@ namespace Controller
                         participant.Laps++;
                         if (participant.Laps == _numOfLaps)
                         {
-                            participant.Points = Participants.Count - _finished.Count;
+                            participant.Points += Participants.Count - _finished.Count;
                             _finished.Enqueue(participant);
                             continue;
                         }
@@ -164,15 +164,11 @@ namespace Controller
         public void End()
         {
             _timer.Enabled = false;
-            Console.Clear();
             while (_finished.Count > 0)
             {
                 IParticipant participant = _finished.Dequeue();
-                Console.WriteLine(participant);
                 participant.Laps = 0;
             }
-            Thread.Sleep(1000);
-            Console.Clear();
             Data.NextRace();
             RaceChanged.Invoke(this, Data.CurrentRace);
         }
