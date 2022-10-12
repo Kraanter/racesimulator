@@ -88,17 +88,22 @@ public static class Visualisation
     {
         oldRace.DriversChanged -= OnDriversChanged;
         oldRace.RaceChanged -= OnRaceChanged;
+        DrawLeaderboard();
+        newRace.DriversChanged += OnDriversChanged;
+        newRace.RaceChanged += OnRaceChanged;
+        if (newRace is null)
+            return;
+        Thread.Sleep(1000);
+        Console.Clear();
+    }
+
+    public static void DrawLeaderboard()
+    {
         Console.Clear();
         foreach (IParticipant participant in Data.Competition.Participants.OrderBy(p => p.Points).Reverse())
         {
             Console.WriteLine(participant);
         }
-        if (newRace is null)
-            return;
-        Thread.Sleep(1000);
-        Console.Clear();
-        newRace.DriversChanged += OnDriversChanged;
-        newRace.RaceChanged += OnRaceChanged;
     }
     
     public static void DrawTrack(Track track)
