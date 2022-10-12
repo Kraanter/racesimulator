@@ -28,7 +28,7 @@ namespace Model {
 
         public override string ToString()
         {
-            return $"{Name} | Points: {Points} | {Equipment}";
+            return $"{Name, -20} | Points: {Points}";
         }
 
         public ConsoleColor GetConsoleColor()

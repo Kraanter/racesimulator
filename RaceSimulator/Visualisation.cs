@@ -89,8 +89,7 @@ public static class Visualisation
         oldRace.DriversChanged -= OnDriversChanged;
         oldRace.RaceChanged -= OnRaceChanged;
         Console.Clear();
-        Data.Competition.Participants.OrderBy(p => p.Points);
-        foreach (IParticipant participant in Data.Competition.Participants.OrderBy(p => p.Points))
+        foreach (IParticipant participant in Data.Competition.Participants.OrderBy(p => p.Points).Reverse())
         {
             Console.WriteLine(participant);
         }

@@ -75,7 +75,7 @@ namespace Controller
             };
             Data.Competition.Tracks.Enqueue(new Track("Monza", Zandvoort));
             Data.Competition.Tracks.Enqueue(new Track("Zandvoort", Monza));
-            Data.Competition.Tracks.Enqueue(new Track("Spa Francorchamps", Monza));
+            Data.Competition.Tracks.Enqueue(new Track("Spa Francorchamps", Zandvoort));
         }
 
         public static void NextRace()
