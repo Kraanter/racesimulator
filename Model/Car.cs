@@ -34,6 +34,24 @@ namespace Model {
             return Performance * Speed;
         }
 
+        public void WearAndTear(Random random)
+        {
+            if (IsBroken)
+            {
+                if (random.Next(0, Quality / 2) == 0)
+                {
+                    IsBroken = false;
+                }
+            }
+            else
+            {
+                if (random.Next(0, Quality) == 0)
+                {
+                    IsBroken = true;
+                }
+            }
+        }
+
         #endregion
     }
 }

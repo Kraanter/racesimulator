@@ -114,32 +114,31 @@ namespace Controller
             foreach (IParticipant participant in Participants)
             {
                 if (participant.Laps == _numOfLaps) continue;
-                LinkedListNode<Section> currentSection = participant.CurrentSection;
+                participant.Equipment.WearAndTear(_random);
+                if(participant.Equipment.IsBroken)
+                    continue;
                 int distanceTraveled = participant.Equipment.GetDistanceTraveled();
-                SectionData sectionData = GetSectionData(currentSection.ValueRef);
+                SectionData sectionData = GetSectionData(participant.CurrentSection.ValueRef);
                 int newPosition = distanceTraveled + sectionData.GetParticipantPosition(participant);
                 bool toNext = newPosition >= Section.SectionLength;
                 if (toNext)
                 {
-                    participant.CurrentSection = currentSection.Next ?? currentSection.List.First;
-                    while (GetSectionData(participant.CurrentSection.ValueRef).IsFull())
+                    do 
                     {
-                        participant.CurrentSection = participant.CurrentSection.Next ?? currentSection.List.First;
-                    }
-
-                    ;
-                    sectionData.RemoveParticipant(participant);
-                    if (currentSection.Value.SectionType == SectionTypes.Finish)
-                    {
-                        participant.Laps++;
-                        if (participant.Laps == _numOfLaps)
+                        if (participant.CurrentSection.Value.SectionType == SectionTypes.Finish)
                         {
-                            participant.Points += Participants.Count - _finished.Count;
-                            _finished.Enqueue(participant);
-                            continue;
+                            participant.Laps++;
                         }
+                        
+                        participant.CurrentSection = participant.CurrentSection.Next ?? participant.CurrentSection.List.First;
+                    } while (GetSectionData(participant.CurrentSection.ValueRef).IsFull());
+                    sectionData.RemoveParticipant(participant);
+                    if (participant.Laps == _numOfLaps)
+                    {
+                        participant.Points += Participants.Count - _finished.Count;
+                        _finished.Enqueue(participant);
+                        continue;
                     }
-
                     newPosition -= Section.SectionLength;
                     SectionData sectionDataNew = GetSectionData(participant.CurrentSection.ValueRef);
                     sectionDataNew.AddParticipant(participant, participant.CurrentSection, newPosition, _random);

@@ -184,6 +184,8 @@ public static class Visualisation
         Directions direction = Directions.Right;
         int x = 0;
         int y = 0;
+        minX = 0;
+        minY = 0;
 
         foreach (Section section in track.Sections)
         {

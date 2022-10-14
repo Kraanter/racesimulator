@@ -6,6 +6,7 @@ namespace Model {
         public int Speed { get; set; }
         public bool IsBroken { get; set; }
         public int GetDistanceTraveled();
+        public void WearAndTear(Random random);
     }
 }
 

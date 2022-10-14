@@ -31,7 +31,7 @@ namespace Controller
 
         public static void AddTracks()
         {
-            SectionTypes[] Monza = new SectionTypes[] {
+            SectionTypes[] Monza = {
                 SectionTypes.StartGrid,
                 SectionTypes.StartGrid,
                 SectionTypes.Finish,
@@ -61,7 +61,7 @@ namespace Controller
                 SectionTypes.LeftCorner,
                 SectionTypes.LeftCorner,
             };
-            SectionTypes[] Zandvoort = new SectionTypes[] {
+            SectionTypes[] Zandvoort = {
                 SectionTypes.StartGrid,
                 SectionTypes.StartGrid,
                 SectionTypes.Finish,
