@@ -89,12 +89,12 @@ public static class Visualisation
         oldRace.DriversChanged -= OnDriversChanged;
         oldRace.RaceChanged -= OnRaceChanged;
         DrawLeaderboard();
-        newRace.DriversChanged += OnDriversChanged;
-        newRace.RaceChanged += OnRaceChanged;
         if (newRace is null)
             return;
         Thread.Sleep(1000);
         Console.Clear();
+        newRace.DriversChanged += OnDriversChanged;
+        newRace.RaceChanged += OnRaceChanged;
     }
 
     public static void DrawLeaderboard()
