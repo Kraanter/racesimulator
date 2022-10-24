@@ -108,15 +108,13 @@ public static class Visualisation
     
     public static void DrawTrack(Track track)
     {
-        GetMinXY(track);
         Directions direction = Directions.Right;
         int yOff = 2;
         int xOff = 2;
-        int x = Math.Abs(minX);
-        int y = Math.Abs(minY);
+        int x = Math.Abs(track.MinMaxCords.minX);
+        int y = Math.Abs(track.MinMaxCords.minY);
         foreach (Section section in track.Sections)
         {
-            SectionTypes sectionType = section.SectionType;
             DrawSection(section, direction, x * 7 + xOff, (y * 4) + yOff);
             direction = section.GetNextDirection(direction);
             switch (direction)
@@ -178,41 +176,6 @@ public static class Visualisation
             }
         }
     }
-
-    private static void GetMinXY(Track track)
-    {
-        Directions direction = Directions.Right;
-        int x = 0;
-        int y = 0;
-        minX = 0;
-        minY = 0;
-
-        foreach (Section section in track.Sections)
-        {
-            SectionTypes sectionType = section.SectionType;
-            direction = section.GetNextDirection(direction);
-            switch (direction)
-            {
-                case Directions.Up:
-                    y--;
-                    break;
-                case Directions.Down:
-                    y++;
-                    break;
-                case Directions.Left:
-                    x--;
-                    break;
-                case Directions.Right:
-                    x++;
-                    break;
-            }
-            if(x < minX)
-                minX = x;
-            if (y < minY)
-                minY = y;
-        }
-    }
-    
     
     private static string[] GetSection(SectionTypes sectionType, Directions direction)
     {
