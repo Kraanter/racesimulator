@@ -12,31 +12,31 @@ namespace WPFApp
 {
     public static class Generator
     {
-        private static Dictionary<string, Bitmap> Images;
+        private static Dictionary<string, Bitmap> Cache;
 
         public static void Initialize()
         {
-            Images = new Dictionary<string, Bitmap>();
+            Cache = new Dictionary<string, Bitmap>();
         }
 
         public static Bitmap GetBitmap(string Location)
         {
-            if(Images.ContainsKey(Location))
-                return Images[Location];
-            Images[Location] = new Bitmap(Location);
-            return Images[Location];
+            if(Cache.ContainsKey(Location))
+                return Cache[Location];
+            Cache[Location] = new Bitmap(Location);
+            return Cache[Location];
         }
 
         public static void clear()
         {
-            Images?.Clear();
+            Cache?.Clear();
         }
         
         public static Bitmap CreateBitmap(int Width, int Height)
         {
             string key = Width + "x" + Height;
-            if (Images.ContainsKey(key))
-                return Images[key];
+            if (Cache.ContainsKey(key))
+                return (Bitmap) Cache[key].Clone();
             Bitmap image = GetBitmap(key);
             Bitmap newImage = new Bitmap(Width, Height);
             Graphics g = Graphics.FromImage(newImage);
