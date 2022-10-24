@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using Color = System.Drawing.Color;
 
 namespace WPFApp
 {
@@ -24,10 +25,10 @@ namespace WPFApp
             if(Cache.ContainsKey(Location))
                 return Cache[Location];
             Cache[Location] = new Bitmap(Location);
-            return Cache[Location];
+            return (Bitmap) Cache[Location].Clone();
         }
 
-        public static void clear()
+        public static void Clear()
         {
             Cache?.Clear();
         }
@@ -36,12 +37,12 @@ namespace WPFApp
         {
             string key = Width + "x" + Height;
             if (Cache.ContainsKey(key))
-                return (Bitmap) Cache[key].Clone();
-            Bitmap image = GetBitmap(key);
+                return GetBitmap(key);
             Bitmap newImage = new Bitmap(Width, Height);
             Graphics g = Graphics.FromImage(newImage);
-            g.DrawImage(image, 0, 0, Width, Height);
-            return newImage;
+            g.FillRectangle(new SolidBrush(Color.SeaGreen), 0, 0, Width, Height);
+            Cache[key] = newImage;
+            return (Bitmap) newImage.Clone();
         }
         
         public static BitmapSource CreateBitmapSourceFromGdiBitmap(Bitmap bitmap)
