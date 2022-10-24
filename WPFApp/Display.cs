@@ -9,7 +9,20 @@ namespace WPFApp;
 
 public static class Display
 {
-   #region methods
+    #region Graphics
+    private const string _cornerTL = ".\\Resources\\Tracks\\cornerTL.png";
+    private const string _cornerTR = ".\\Resources\\Tracks\\cornerTR.png";
+    private const string _cornerBL = ".\\Resources\\Tracks\\cornerBL.png";
+    private const string _cornerBR = ".\\Resources\\Tracks\\cornerBR.png";
+    private const string _finish = ".\\Resources\\Tracks\\finish.png";
+    private const string _start = ".\\Resources\\Tracks\\start.png";
+    private const string _straightV = ".\\Resources\\Tracks\\straightV.png";
+    private const string _straightH = ".\\Resources\\Tracks\\straightH.png";
+    
+    #endregion
+
+
+    #region methods
 
    public static BitmapSource DrawTrack(Track track)
    {
