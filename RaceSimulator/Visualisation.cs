@@ -118,7 +118,7 @@ public static class Visualisation
         {
             SectionTypes sectionType = section.SectionType;
             DrawSection(section, direction, x * 7 + xOff, (y * 4) + yOff);
-            direction = getDirection(direction, sectionType);
+            direction = section.GetNextDirection(direction);
             switch (direction)
             {
                 case Directions.Up:
@@ -190,7 +190,7 @@ public static class Visualisation
         foreach (Section section in track.Sections)
         {
             SectionTypes sectionType = section.SectionType;
-            direction = getDirection(direction, sectionType);
+            direction = section.GetNextDirection(direction);
             switch (direction)
             {
                 case Directions.Up:
@@ -213,23 +213,7 @@ public static class Visualisation
         }
     }
     
-    private static Directions getDirection(Directions direction, SectionTypes sectionType)
-    {
-        switch (sectionType)
-        {
-            case SectionTypes.StartGrid:
-                return Directions.Right;
-            case SectionTypes.Finish:
-            case SectionTypes.Straight:
-                return direction;
-            case SectionTypes.RightCorner:
-                return (Directions) (((int) direction + 1) % 4);
-            case SectionTypes.LeftCorner:
-                return (Directions) (((int) direction + 3) % 4);
-            default:
-                throw new ArgumentOutOfRangeException(nameof(sectionType), sectionType, null);
-        }
-    }
+    
     private static string[] GetSection(SectionTypes sectionType, Directions direction)
     {
         bool reverse = sectionType != SectionTypes.LeftCorner && sectionType != SectionTypes.RightCorner && 
@@ -291,12 +275,4 @@ public static class Visualisation
     }
 
     #endregion
-}
-
-public enum Directions
-{
-    Up = 0,
-    Right = 1,
-    Down = 2,
-    Left = 3
 }

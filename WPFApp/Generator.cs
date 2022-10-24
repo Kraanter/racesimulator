@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
@@ -35,6 +37,8 @@ namespace WPFApp
         
         public static Bitmap CreateBitmap(int Width, int Height)
         {
+            Width *= Display.TrackSize;
+            Height *= Display.TrackSize;
             string key = Width + "x" + Height;
             if (Cache.ContainsKey(key))
                 return GetBitmap(key);
@@ -42,6 +46,7 @@ namespace WPFApp
             Graphics g = Graphics.FromImage(newImage);
             g.FillRectangle(new SolidBrush(Color.SeaGreen), 0, 0, Width, Height);
             Cache[key] = newImage;
+            Debug.WriteLine("Created new bitmap: " + key);
             return (Bitmap) newImage.Clone();
         }
         

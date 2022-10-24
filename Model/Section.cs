@@ -26,7 +26,24 @@ namespace Model {
                 return SectionType.Equals(objSection.SectionType);
             return false;
         }
-        
+        public Directions GetNextDirection(Directions direction)
+        {
+            switch (SectionType)
+            {
+                case SectionTypes.StartGrid:
+                    return Directions.Right;
+                case SectionTypes.Finish:
+                case SectionTypes.Straight:
+                    return direction;
+                case SectionTypes.RightCorner:
+                    return (Directions) (((int) direction + 1) % 4);
+                case SectionTypes.LeftCorner:
+                    return (Directions) (((int) direction + 3) % 4);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(SectionType), SectionType, null);
+            }
+        }
+  
         #endregion
     }
 

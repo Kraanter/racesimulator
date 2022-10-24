@@ -12,22 +12,68 @@
       <None Remove="Resources\Tracks\corner-right.png" />
       <None Remove="Resources\Tracks\finish-horizontal.png" />
       <None Remove="Resources\Tracks\finish-vertical.png" />
-      <Content Include="Resources\Tracks\finish-vertical.png" />
+      <Content Include="Resources\Tracks\finish-vertical.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <None Remove="Resources\Tracks\start-grid.png" />
       <None Remove="Resources\Tracks\straight-horizontal.png" />
       <None Remove="Resources\Tracks\straight-vertical.png" />
       <None Remove="Resources\Cars\car-yellow.png" />
-      <Content Include="Resources\Cars\car-yellow.png" />
+      <Content Include="Resources\Cars\car-yellow.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <None Remove="Resources\Cars\car-blue.png" />
-      <Content Include="Resources\Cars\car-blue.png" />
+      <Content Include="Resources\Cars\car-blue.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <None Remove="Resources\Cars\car-destroyed.png" />
-      <Content Include="Resources\Cars\car-destroyed.png" />
+      <Content Include="Resources\Cars\car-destroyed.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <None Remove="Resources\Cars\car-red.png" />
-      <Content Include="Resources\Cars\car-red.png" />
+      <Content Include="Resources\Cars\car-red.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <None Remove="Resources\Cars\car-grey.png" />
-      <Content Include="Resources\Cars\car-grey.png" />
+      <Content Include="Resources\Cars\car-grey.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <None Remove="Resources\Cars\car-green.png" />
-      <Content Include="Resources\Cars\car-green.png" />
+      <Content Include="Resources\Cars\car-green.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\Tracks\cornerBL.png" />
+      <Content Include="Resources\Tracks\cornerBL.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\Tracks\cornerBR.png" />
+      <Content Include="Resources\Tracks\cornerBR.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\Tracks\cornerTL.png" />
+      <Content Include="Resources\Tracks\cornerTL.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\Tracks\cornerTR.png" />
+      <Content Include="Resources\Tracks\cornerTR.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\Tracks\finish.png" />
+      <Content Include="Resources\Tracks\finish.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\Tracks\start.png" />
+      <Content Include="Resources\Tracks\start.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\Tracks\straightH.png" />
+      <Content Include="Resources\Tracks\straightH.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\Tracks\straightV.png" />
+      <Content Include="Resources\Tracks\straightV.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>
