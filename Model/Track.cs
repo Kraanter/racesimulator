@@ -67,7 +67,6 @@ namespace Model
                 if (x > maxX) maxX = x;
                 if (y > maxY) maxY = y;
             }
-            Debug.WriteLine($"minX: {minX}, minY: {minY}, maxX: {maxX}, maxY: {maxY}");
             MinMaxCords = (minX, minY, maxX, maxY);
         }
         

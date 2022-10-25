@@ -19,10 +19,13 @@ public static class Display
     private const string _finish = "Resources\\Tracks\\finish.png";
     private const string _start = "Resources\\Tracks\\start.png";
     private const string _straightH = "Resources\\Tracks\\straightH.png";
+    private const string _carDestroyed = "Resources\\Cars\\car-destroyed.png";
+    private const string _carPrefix = "Resources\\Cars\\car-";
+    private const string _carSuffix = ".png";
     public const int TrackSize = 300;
-    private const int TrackOffset = 15;
-    private const int TrackWidth = (TrackSize / 2) - TrackOffset;
-    private const int CarSize = 128;
+    private const int _trackOffset = 15;
+    private const int _trackWidth = (TrackSize / 2) - _trackOffset;
+    private const int _carSize = 128;
 
     #endregion
 
@@ -67,7 +70,6 @@ public static class Display
     {
         x *= TrackSize;
         y *= TrackSize;
-        Debug.WriteLine("x: " + x + " y: " + y);
         Graphics g = Graphics.FromImage(bitmap);
         Point[] corners =
         {
@@ -99,6 +101,20 @@ public static class Display
             _ => throw new ArgumentOutOfRangeException(nameof(sectionType), sectionType, null),
         };
     }
+    
+    public static Bitmap GenParticipantImage(IParticipant participant)
+    {
+        string path = _carPrefix + participant.TeamColor + _carSuffix;
+        // Without the type cast the image is not drawn correctly (it keeps the cross) WHY?
+        Bitmap carImg = (Bitmap) Generator.GetBitmap(path).Clone();
+        if (participant.Equipment.IsBroken)
+        {
+            Debug.WriteLine("Broken " + participant.TeamColor);
+            Graphics g = Graphics.FromImage(carImg);
+            g.DrawImage(Generator.GetBitmap(_carDestroyed), 0, 0);
+        }
+        return carImg;
+    }
 
     public static Bitmap RotateImage(Bitmap image, Directions direction)
     {
@@ -115,39 +131,40 @@ public static class Display
 
     public static Bitmap AddParticpants(Bitmap original, Section section)
     {
-        Bitmap tempimage = new Bitmap(original.Width, original.Height);
-        Graphics g = Graphics.FromImage(tempimage);
-        int y = TrackOffset + (TrackWidth - CarSize) / 2;
+        Bitmap returnBitmap = new Bitmap(original);
+        Graphics g = Graphics.FromImage(returnBitmap);
+        int y = _trackOffset + (_trackWidth - _carSize) / 2;
         bool isCorner = section.SectionType == SectionTypes.LeftCorner || section.SectionType == SectionTypes.RightCorner;
         SectionData sectionData = Data.CurrentRace.GetSectionData(section);
+        
         foreach (IParticipant? participant in sectionData.GetDrivers())
         {
             if (participant is not null)
             {
+                Bitmap layer = new Bitmap(original.Width, original.Height);
+                Graphics gLayer = Graphics.FromImage(layer);
                 int currentXPos = sectionData.GetParticipantPosition(participant);
                 // * 1.00 so the result is a double and not an int
-                int x = (int)((currentXPos / (Section.SectionLength * 1.00)) * (TrackSize - TrackWidth));
-                Debug.WriteLine("currentXPos: " + currentXPos + " x " + x + "teamColor: " + participant.TeamColor);
+                int x = (int)(currentXPos / (Section.SectionLength * 1.00) * (TrackSize - _trackWidth));
+                
                 Point[] corners =
                 {
                     new(x, y),
-                    new(x + CarSize, y),
-                    new(x, y + CarSize),
+                    new(x + _carSize, y),
+                    new(x, y + _carSize),
                 };
-                Bitmap carImg = Generator.GetBitmap($"Resources\\Cars\\car-{participant.TeamColor}.png");
-                g.DrawImage(carImg, corners);
-                if (participant.Equipment.IsBroken)
-                    g.DrawImage(Generator.GetBitmap("Resources\\Cars\\car-destroyed.png"), corners);
+                Bitmap participantImage = GenParticipantImage(participant);
+                gLayer.DrawImage(participantImage, corners);
+                
                 if(isCorner)
-                    tempimage = RotateImage(tempimage, currentXPos / 100f * 90f * (section.SectionType == SectionTypes.LeftCorner ? -1 : 1));
+                    // if the section is a corner the cars are rotated based on their position on the track
+                    layer = RotateImage(layer, currentXPos / 100f * 90f * (section.SectionType == SectionTypes.LeftCorner ? -1 : 1));
+                // add the current layer to the final image
+                g.DrawImage(layer, 0, 0);
             }
-            y += TrackWidth;
+            y += _trackWidth;
         }
-        
-        Bitmap test = new Bitmap(original);
-        Graphics g2 = Graphics.FromImage(test);
-        g2.DrawImage(tempimage, 0, 0);
-        return test;
+        return returnBitmap;
     }
 
 
