@@ -43,17 +43,11 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <None Remove="Resources\Tracks\cornerBL.png" />
-      <Content Include="Resources\Tracks\cornerBL.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Remove="Resources\Tracks\cornerBR.png" />
       <Content Include="Resources\Tracks\cornerBR.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <None Remove="Resources\Tracks\cornerTL.png" />
-      <Content Include="Resources\Tracks\cornerTL.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
       <None Remove="Resources\Tracks\cornerTR.png" />
       <Content Include="Resources\Tracks\cornerTR.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -71,9 +65,6 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
       <None Remove="Resources\Tracks\straightV.png" />
-      <Content Include="Resources\Tracks\straightV.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
     </ItemGroup>
 
     <ItemGroup>

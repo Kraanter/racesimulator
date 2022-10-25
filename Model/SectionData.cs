@@ -72,6 +72,11 @@ namespace Model
         {
             return $"Left: {Left?.Name} {DistanceLeft}m, Right: {Right?.Name} {DistanceRight}m";
         }
+        
+        public IParticipant?[] GetDrivers()
+        {
+            return new []{Left, Right};
+        }
 
         #endregion
     }
