@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:WPFApp"
         mc:Ignorable="d"
-        Title="RaceWindow" Height="450" Width="800" Closing="Window_Closing">
+        Title="RaceWindow" Height="450" Width="350" Closing="Window_Closing">
     <Window.Resources>
         <local:DataContext x:Key="DataContext" />
         <Style TargetType="ListBoxItem">
@@ -16,7 +16,7 @@
         <DataTemplate x:Key="DetailTemplate">
             <Border Width="300" MaxHeight="400" Margin="10"
                     BorderBrush="Aqua" BorderThickness="1" Padding="8">
-                <Grid>
+                <Grid VerticalAlignment="Stretch">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -28,9 +28,9 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="Name:" />
                     <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Name}" />
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Laps:" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Lap Nr:" />
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Laps}" />
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Sprite:" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Car:" />
                     <Image Grid.Row="2" Grid.Column="1" Source="{Binding ImagePath}" Stretch="Fill" />
                 </Grid>
             </Border>
@@ -40,12 +40,12 @@
         <StackPanel>
             <TextBlock FontFamily="Verdana" FontSize="11"
                        Margin="5,15,0,10" FontWeight="Bold">My Friends:</TextBlock>
-            <ListBox Width="200" IsSynchronizedWithCurrentItem="True"
-                     ItemsSource="{Binding Participants, Source={StaticResource DataContext}}"/>
+            <ListBox Width="200" IsSynchronizedWithCurrentItem="True" 
+                     ItemsSource="{Binding TrackLeaderboard, Source={StaticResource DataContext}}"/>
             <TextBlock FontFamily="Verdana" FontSize="11"
                        Margin="5,15,0,5" FontWeight="Bold">Information:</TextBlock>
-            <ContentControl Content="{Binding Participants, Source={StaticResource DataContext}}"
-                            ContentTemplate="{StaticResource DetailTemplate}"/>
-        </StackPanel> 
+            <ContentControl Content="{Binding TrackLeaderboard, Source={StaticResource DataContext}}"
+                            ContentTemplate="{StaticResource DetailTemplate}" VerticalAlignment="Center"/>
+        </StackPanel>
     </StackPanel>
 </Window>

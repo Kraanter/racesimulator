@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
+
 namespace Model {
-    public interface IEquipment {
+    public interface IEquipment: INotifyPropertyChanged {
         public int Quality { get; set; }
         public int Performance { get; set; }
         public int Speed { get; set; }

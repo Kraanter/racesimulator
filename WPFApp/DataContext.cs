@@ -17,9 +17,10 @@ public class DataContext : INotifyPropertyChanged, INotifyCollectionChanged
     public string TrackName => Data.CurrentRace.Track.Name;
     public string TrackLength => Data.Competition.Tracks.Count.ToString();
     public string TrackLaps => Data.CurrentRace.Track.Laps.ToString();
+    public ObservableCollection<IParticipant> TrackLeaderboard => Data.CurrentRace.Leaderboard;
 
-    public BindingList<IParticipant> Participants =>
-        new (Data.CurrentRace.Participants.OrderByDescending(x => x.Points).ToList());
+    public ObservableCollection<IParticipant> Participants =>
+        new (Data.CurrentRace.Participants.OrderByDescending(x => x.CurrentPosition).ToList());
 
 
     #region Constructor
@@ -34,12 +35,18 @@ public class DataContext : INotifyPropertyChanged, INotifyCollectionChanged
     
     public void OnDriversChanged(object? obj, Race.DriversChangedEventArgs args)
     {
-        PropertyChanged?.Invoke(this, new (""));
-        CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        // PropertyChanged?.Invoke(this, new (""));
+        // CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
     }
-    public void OnRaceChanged(Race oldRace, Race newRace)
+    public void OnRaceChanged(Race oldRace, Race? newRace)
     {
+        oldRace.DriversChanged -= OnDriversChanged;
+        oldRace.RaceChanged -= OnRaceChanged;
         PropertyChanged?.Invoke(this, new (""));
         CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        if (newRace is null)
+            return;
+        oldRace.DriversChanged += OnDriversChanged;
+        oldRace.RaceChanged += OnRaceChanged;
     }
 }

@@ -1,13 +1,31 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
 namespace Model {
     public class Car : IEquipment {
 
+        #region Fields
+
+        private bool _isBroken;
+        
+        #endregion
+        
         #region Properties
 
         public int Quality { get; set; }
         public int Performance { get; set; }
         public int Speed { get; set; }
-        public bool IsBroken { get; set; }
+
+        public bool IsBroken
+        {
+            get => _isBroken;
+            set
+            {
+                _isBroken = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -53,6 +71,21 @@ namespace Model {
         }
 
         #endregion
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
     }
 }
 

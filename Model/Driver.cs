@@ -4,14 +4,74 @@ using System.Runtime.CompilerServices;
 
 namespace Model {
     public class Driver : IParticipant {
+        #region Fields
+        
+        private string _name;
+        private int _points;
+        private IEquipment _equipment;
+        private LinkedListNode<Section> _currentSection;
+        private int _laps;
+        private int _position;
+       
+        #endregion
+        
         #region Properties
 
-        public string Name { get; set; }
-        public int Points { get; set; }
-        public IEquipment Equipment { get; set; }
+        public int CurrentPosition {
+            get => _position;
+            set { _position = value; OnPropertyChanged();}
+        }
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int Points
+        {
+            get => _points;
+            set
+            {
+                _points = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public IEquipment Equipment
+        {
+            get => _equipment;
+            set
+            {
+                _equipment = value;
+                OnPropertyChanged();
+            }
+        }
+
         public TeamColors TeamColor { get; set; }
-        public LinkedListNode<Section> CurrentSection { get; set; }
-        public  int Laps { get; set; }
+
+        public LinkedListNode<Section> CurrentSection
+        {
+            get => _currentSection;
+            set
+            {
+                _currentSection = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int Laps
+        {
+            get => _laps == 0 ? 1 : _laps;
+            set
+            {
+                _laps = _laps == 0 ? 1 : value;
+                OnPropertyChanged();
+            }
+        }
 
         public string ImagePath
         {
@@ -25,10 +85,10 @@ namespace Model {
 
         public Driver(string name, TeamColors teamColor)
         {
-            Name = name;
-            Points = 0;
+            _name = name;
+            _points = 0;
             TeamColor = teamColor;
-            Laps = 0;
+            _laps = 0;
         }
 
         #endregion
@@ -55,14 +115,6 @@ namespace Model {
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
         }
     }
 }

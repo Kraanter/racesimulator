@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using Model;
@@ -9,7 +12,7 @@ using Timer = System.Timers.Timer;
 namespace Controller
 {
     public delegate void RaceChangedDelegate(Race oldRace, Race newRace);
-    public class Race
+    public class Race: INotifyPropertyChanged
     {
         #region Attributes
 
@@ -19,6 +22,7 @@ namespace Controller
         private int _numOfLaps;
         private Queue<IParticipant> _finished;
         private int count = 0;
+        private ObservableCollection<IParticipant> _leaderboard;
 
         #endregion
 
@@ -27,6 +31,16 @@ namespace Controller
         public Track Track { get; }
         public List<IParticipant> Participants { get; private set; }
         public DateTime StartTime { get; set; }
+
+        public ObservableCollection<IParticipant> Leaderboard
+        {
+            get => _leaderboard;
+            set
+            {
+                _leaderboard = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -43,6 +57,7 @@ namespace Controller
             _timer = new Timer(250);
             _timer.Elapsed += OnTimedEvent;
             _numOfLaps = track.Laps + 1;
+            _leaderboard = new ObservableCollection<IParticipant>(participants);
 
             RandomizeEquipment();
             RandomizeStartPositions(track, participants);
@@ -151,6 +166,10 @@ namespace Controller
 
             DriversChanged?.Invoke(this, new DriversChangedEventArgs() { Track = this.Track });
             _timer.Start();
+
+            var leaderboard = GetParticipantsLeaderboard();
+            if(!leaderboard.SequenceEqual(Leaderboard))
+                Leaderboard = leaderboard;
         }
 
         public void Start()
@@ -158,6 +177,28 @@ namespace Controller
             StartTime = DateTime.Now;
             _timer.Start();
             DriversChanged?.Invoke(this, new DriversChangedEventArgs() { Track = Track });
+        }
+        
+        public ObservableCollection<IParticipant> GetParticipantsLeaderboard()
+        {
+            List<(IParticipant, int)> participants = new List<(IParticipant, int)>();
+            int i = 0;
+            foreach (Section section in Track.Sections)
+            {
+                SectionData sectionData = GetSectionData(section);
+                foreach (IParticipant? participant in sectionData.GetDrivers())
+                    if(participant is not null)
+                        participants.Add((participant, i));
+                i++;
+            }
+            
+            List<IParticipant> sortedParticipants = participants
+                .OrderBy(x => x.Item1.Laps)
+                .ThenBy(x => x.Item2)
+                .Select(x => x.Item1)
+                .ToList();
+           sortedParticipants.ForEach(a => a.CurrentPosition = sortedParticipants.IndexOf(a) + 1); 
+            return new ObservableCollection<IParticipant>(sortedParticipants);
         }
 
         public void End()
@@ -185,6 +226,13 @@ namespace Controller
         public class DriversChangedEventArgs : EventArgs
         {
             public Track Track { get; set; }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

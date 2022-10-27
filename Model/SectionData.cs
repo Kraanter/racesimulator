@@ -1,7 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
 namespace Model
 {
-    public class SectionData
+    public class SectionData : INotifyPropertyChanged
     {
         #region Properties
 
@@ -27,8 +30,8 @@ namespace Model
                 Right = participant;
                 DistanceRight = distance;
             }
-            // IsFull = Left != null && Right != null;
             participant.CurrentSection = currentSection;
+            OnPropertyChanged();
         }
         
         public void MoveParticipant(IParticipant participant, int distance)
@@ -41,6 +44,7 @@ namespace Model
             {
                 DistanceRight += distance;
             }
+            OnPropertyChanged();
         }
         
         public void RemoveParticipant(IParticipant participant)
@@ -57,6 +61,7 @@ namespace Model
                 DistanceRight = 0;
                 // IsFull = false;
             }
+            OnPropertyChanged();
         }
         
         public int GetParticipantPosition(IParticipant participant)
@@ -79,6 +84,13 @@ namespace Model
         }
 
         #endregion
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
 

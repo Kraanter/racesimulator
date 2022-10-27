@@ -11,6 +11,7 @@ namespace Model {
         public ConsoleColor GetConsoleColor();
         public int Laps { get; set; }
         public string ImagePath { get; set; }
+        public int CurrentPosition { get; set; }
     }
 
     public enum TeamColors {
