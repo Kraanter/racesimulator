@@ -73,9 +73,10 @@ namespace Controller
                 SectionTypes.RightCorner,
                 SectionTypes.RightCorner
             };
-            Data.Competition.Tracks.Enqueue(new Track("Monza", Zandvoort));
-            Data.Competition.Tracks.Enqueue(new Track("Zandvoort", Monza));
-            Data.Competition.Tracks.Enqueue(new Track("Spa Francorchamps", Zandvoort));
+            // todo: Zet laps op goede aantallen
+            Data.Competition.Tracks.Enqueue(new Track("Monza", 1, Zandvoort));
+            Data.Competition.Tracks.Enqueue(new Track("Zandvoort", 1, Monza));
+            Data.Competition.Tracks.Enqueue(new Track("Spa Francorchamps", 1, Zandvoort));
         }
 
         public static void NextRace()
@@ -86,7 +87,7 @@ namespace Controller
                 CurrentRace = null;
                 return;
             }
-            CurrentRace = new Race(newTrack, 1, Data.Competition.Participants);
+            CurrentRace = new Race(newTrack, Data.Competition.Participants);
             CurrentRace.Start();
         }
 

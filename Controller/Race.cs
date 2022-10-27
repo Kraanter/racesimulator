@@ -32,7 +32,7 @@ namespace Controller
 
         #region Constructors
 
-        public Race(Track track, int numOfLaps, List<IParticipant> participants)
+        public Race(Track track, List<IParticipant> participants)
         {
             Track = track;
             Participants = participants;
@@ -42,7 +42,7 @@ namespace Controller
             _positions = new Dictionary<Section, SectionData>();
             _timer = new Timer(250);
             _timer.Elapsed += OnTimedEvent;
-            _numOfLaps = numOfLaps + 1;
+            _numOfLaps = track.Laps + 1;
 
             RandomizeEquipment();
             RandomizeStartPositions(track, participants);

@@ -1,0 +1,51 @@
+﻿<Window x:Class="WPFApp.RaceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:WPFApp"
+        mc:Ignorable="d"
+        Title="RaceWindow" Height="450" Width="800" Closing="Window_Closing">
+    <Window.Resources>
+        <local:DataContext x:Key="DataContext" />
+        <Style TargetType="ListBoxItem">
+            <Setter Property="FontFamily" Value="Verdana" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Padding" Value="10"/>
+        </Style>
+        <DataTemplate x:Key="DetailTemplate">
+            <Border Width="300" MaxHeight="400" Margin="10"
+                    BorderBrush="Aqua" BorderThickness="1" Padding="8">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Name:" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Name}" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Laps:" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Laps}" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Sprite:" />
+                    <Image Grid.Row="2" Grid.Column="1" Source="{Binding ImagePath}" Stretch="Fill" />
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+    <StackPanel>
+        <StackPanel>
+            <TextBlock FontFamily="Verdana" FontSize="11"
+                       Margin="5,15,0,10" FontWeight="Bold">My Friends:</TextBlock>
+            <ListBox Width="200" IsSynchronizedWithCurrentItem="True"
+                     ItemsSource="{Binding Participants, Source={StaticResource DataContext}}"/>
+            <TextBlock FontFamily="Verdana" FontSize="11"
+                       Margin="5,15,0,5" FontWeight="Bold">Information:</TextBlock>
+            <ContentControl Content="{Binding Participants, Source={StaticResource DataContext}}"
+                            ContentTemplate="{StaticResource DetailTemplate}"/>
+        </StackPanel> 
+    </StackPanel>
+</Window>

@@ -30,7 +30,7 @@ namespace ControllerTest
         [Test]
         public void NextTrack_OneInQueue_ReturnTrack()
         {
-            Track track = new Track("test", new SectionTypes[] {SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner});
+            Track track = new Track("test", 1, new SectionTypes[] {SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner});
             _competition.Tracks.Enqueue(track);
             Track result = _competition.NextTrack();
             Assert.That(track, Is.EqualTo(result));
@@ -39,7 +39,7 @@ namespace ControllerTest
         [Test]
         public void NextTrack_OneInQueue_RemoveTrackFromQueue()
         {
-            Track track = new Track("test", new SectionTypes[] {SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner});
+            Track track = new Track("test", 1, new SectionTypes[] {SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner});
             _competition.Tracks.Enqueue(track);
             Track result = _competition.NextTrack();
             result = _competition.NextTrack();
@@ -49,8 +49,8 @@ namespace ControllerTest
         [Test]
         public void NextTrack_TwoInQueue_ReturnFirstTrack()
         {
-            Track track1 = new Track("test1", new SectionTypes[] {SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner});
-            Track track2 = new Track("test2", new SectionTypes[] {SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner});
+            Track track1 = new Track("test1", 1, new SectionTypes[] {SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner});
+            Track track2 = new Track("test2", 1, new SectionTypes[] {SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner, SectionTypes.RightCorner});
             _competition.Tracks.Enqueue(track1);
             _competition.Tracks.Enqueue(track2);
             Track result = _competition.NextTrack();

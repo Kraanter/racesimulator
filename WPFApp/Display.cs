@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Threading;
 using System.Windows.Media.Imaging;
-using System.Xml.Schema;
 using Controller;
 using Model;
 
@@ -104,9 +101,8 @@ public static class Display
     
     public static Bitmap GenParticipantImage(IParticipant participant)
     {
-        string path = _carPrefix + participant.TeamColor + _carSuffix;
-        // Without the type cast the image is not drawn correctly (it keeps the cross) WHY?
-        Bitmap carImg = (Bitmap) Generator.GetBitmap(path).Clone();
+        string path = participant.ImagePath;
+        Bitmap carImg = Generator.GetBitmap(path);
         if (participant.Equipment.IsBroken)
         {
             Debug.WriteLine("Broken " + participant.TeamColor);
@@ -181,7 +177,7 @@ public static class Display
             g.RotateTransform(angle);
             //move image back
             g.TranslateTransform(-(float)b.Width / 2, -(float)b.Height / 2);
-            //draw passed in image onto graphics object
+            // draw passed in image onto graphics object
             g.DrawImage(b, new Point(0, 0));
         }
 

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
+
 namespace Model {
-    public interface IParticipant {
+    public interface IParticipant: INotifyPropertyChanged {
         public string Name { get; set; }
         public int Points { get; set; }
         public IEquipment Equipment { get; set; }
@@ -8,6 +10,7 @@ namespace Model {
         public LinkedListNode<Section> CurrentSection { get; set; }
         public ConsoleColor GetConsoleColor();
         public int Laps { get; set; }
+        public string ImagePath { get; set; }
     }
 
     public enum TeamColors {

@@ -1,14 +1,27 @@
-﻿<Window x:Class="WPFApp.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFApp"
+        x:Class="WPFApp.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Background="Lime">
-        <Image Name="TrackScreen"/>
-    </Grid>
-
+    <Window.DataContext>
+        <local:DataContext/>
+    </Window.DataContext>
+    <StackPanel Background="#A9CB42">
+        <DockPanel LastChildFill="False" HorizontalAlignment="Stretch">
+            <Menu DockPanel.Dock="Top" Height="20" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+                <MenuItem x:Name="Race" Header="Current Race Statistics" Click="MenuItem_Click"/>
+                <MenuItem x:Name="Competition" Header="Competition Statistics" Click="MenuItem_Click"/>
+                <MenuItem x:Name="Close" Header="Close Application" Click="MenuItem_Click"/>
+            </Menu>
+        </DockPanel>
+        <Label HorizontalAlignment="Center" VerticalAlignment="Top" Content="{Binding TrackName, Mode=OneWay}"/>
+        <Grid>
+            <Image x:Name="TrackScreen" />
+        </Grid>
+    </StackPanel>
 
 </Window>

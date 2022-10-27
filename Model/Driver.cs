@@ -1,4 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
 namespace Model {
     public class Driver : IParticipant {
         #region Properties
@@ -9,6 +12,12 @@ namespace Model {
         public TeamColors TeamColor { get; set; }
         public LinkedListNode<Section> CurrentSection { get; set; }
         public  int Laps { get; set; }
+
+        public string ImagePath
+        {
+            get => "Resources\\Cars\\car-" + TeamColor + ".png";
+            set => ImagePath = value;
+        }
 
         #endregion
 
@@ -25,12 +34,6 @@ namespace Model {
         #endregion
 
         #region Methods
-
-        public override string ToString()
-        {
-            return $"{Name, -20} | Points: {Points}";
-        }
-
         public ConsoleColor GetConsoleColor()
         {
             return TeamColor switch
@@ -43,8 +46,24 @@ namespace Model {
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
+        public override string ToString() => Name;
 
         #endregion
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
     }
 }
 

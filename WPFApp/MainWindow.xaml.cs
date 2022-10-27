@@ -26,15 +26,19 @@ namespace WPFApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Window _raceWindow;
+        private Window _competitionWindow;
         public MainWindow()
         {
-            InitializeComponent();
             Data.Initialize();
             Display.Initialize();
 
+            _raceWindow = new RaceWindow();
+            _competitionWindow = new CompetitionWindow();
+            
             Data.CurrentRace.DriversChanged += OnDriversChanged;
             Data.CurrentRace.RaceChanged += OnRaceChanged;
-
+            InitializeComponent();
         }
 
 
@@ -58,6 +62,34 @@ namespace WPFApp
             Thread.Sleep(1000);
             newRace.DriversChanged += OnDriversChanged;
             newRace.RaceChanged += OnRaceChanged;
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(sender is MenuItem item))
+                return;
+            Window? window = item.Name switch
+            {
+                "Race" => _raceWindow,
+                "Competition" => _competitionWindow,
+                _ => null
+            };
+
+            if (window is null)
+            {
+                switch (item.Name)
+                {
+                    case "Close":
+                        Application.Current.Shutdown();
+                        break;
+                    default:
+                        MessageBox.Show($"{item.Name} is not implemented");
+                        break;
+                }
+                return;
+            }
+            window.Show();
+            window.Focus();
         }
     }
 }

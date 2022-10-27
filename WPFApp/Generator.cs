@@ -25,7 +25,7 @@ namespace WPFApp
         public static Bitmap GetBitmap(string Location)
         {
             if(Cache.ContainsKey(Location))
-                return Cache[Location];
+                return (Bitmap) Cache[Location].Clone();
             Cache[Location] = new Bitmap(Location);
             return (Bitmap) Cache[Location].Clone();
         }
@@ -43,8 +43,6 @@ namespace WPFApp
             if (Cache.ContainsKey(key))
                 return GetBitmap(key);
             Bitmap newImage = new Bitmap(Width, Height);
-            Graphics g = Graphics.FromImage(newImage);
-            g.FillRectangle(new SolidBrush(Color.SeaGreen), 0, 0, Width, Height);
             Cache[key] = newImage;
             Debug.WriteLine("Created new bitmap: " + key);
             return (Bitmap) newImage.Clone();

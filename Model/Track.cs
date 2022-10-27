@@ -10,17 +10,19 @@ namespace Model
         public string Name { get; set; }
         public LinkedList<Section> Sections { get; set; }
         public (int minX, int minY, int maxX, int maxY) MinMaxCords { get; set; }
+        public int Laps { get; set; }
 
         #endregion
 
         #region Constructors
 
-        public Track(string name, SectionTypes[] sections)
+        public Track(string name, int laps, SectionTypes[] sections)
         {
             if(sections[0] != SectionTypes.StartGrid) throw new ArgumentException("First section must be a start grid");
             if(sections[1] != SectionTypes.StartGrid) throw new ArgumentException("Second section must be a start grid");
             if(sections[2] != SectionTypes.Finish) throw new ArgumentException("Third section must be a start grid");
             Name = name;
+            Laps = laps;
             Sections = SectionTypesToSections(sections);
             GetMinMaxCords();
         }
