@@ -83,7 +83,7 @@ namespace Controller
         {
             foreach (var participant in this.Participants)
             {
-                Car car = new Car(_random.Next(1, 20), _random.Next(4, 10), _random.Next(7, 10));
+                Car car = new Car(_random.Next(15, 20), _random.Next(4, 10), _random.Next(7, 10));
                 participant.Equipment = car;
             }
         }
