@@ -79,6 +79,8 @@ namespace Model {
             set => ImagePath = value;
         }
 
+        public bool IsBroken => Equipment.IsBroken;
+
         #endregion
 
         #region Constructors
@@ -106,7 +108,7 @@ namespace Model {
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
-        public override string ToString() => Name;
+        public override string ToString() => $"{Name} ({Points} points)";
 
         #endregion
 

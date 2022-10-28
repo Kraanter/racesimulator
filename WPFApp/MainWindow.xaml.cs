@@ -58,7 +58,10 @@ namespace WPFApp
             oldRace.DriversChanged -= OnDriversChanged;
             oldRace.RaceChanged -= OnRaceChanged;
             if (newRace is null)
+            {
+                MessageBox.Show($"The winner is {Data.Competition.Participants.OrderByDescending(p => p.Points).ToArray()[0]}!");
                 return;
+            }
             Thread.Sleep(1000);
             newRace.DriversChanged += OnDriversChanged;
             newRace.RaceChanged += OnRaceChanged;

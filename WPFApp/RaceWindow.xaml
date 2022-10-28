@@ -3,11 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:WPFApp"
+        xmlns:controller="clr-namespace:Controller;assembly=Controller"
         mc:Ignorable="d"
         Title="RaceWindow" Height="450" Width="350" Closing="Window_Closing">
     <Window.Resources>
-        <local:DataContext x:Key="DataContext" />
+        <controller:RaceDataContext x:Key="DataContext" />
         <Style TargetType="ListBoxItem">
             <Setter Property="FontFamily" Value="Verdana" />
             <Setter Property="FontSize" Value="12" />
@@ -20,7 +20,8 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -30,8 +31,8 @@
                     <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Name}" />
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Lap Nr:" />
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Laps}" />
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Car:" />
-                    <Image Grid.Row="2" Grid.Column="1" Source="{Binding ImagePath}" Stretch="Fill" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Car:" />
+                    <Image Grid.Row="3" Grid.Column="1" Source="{Binding ImagePath}" Stretch="Fill" />
                 </Grid>
             </Border>
         </DataTemplate>
@@ -39,7 +40,7 @@
     <StackPanel>
         <StackPanel>
             <TextBlock FontFamily="Verdana" FontSize="11"
-                       Margin="5,15,0,10" FontWeight="Bold">My Friends:</TextBlock>
+                       Margin="5,15,0,10" FontWeight="Bold">Driver:</TextBlock>
             <ListBox Width="200" IsSynchronizedWithCurrentItem="True" 
                      ItemsSource="{Binding TrackLeaderboard, Source={StaticResource DataContext}}"/>
             <TextBlock FontFamily="Verdana" FontSize="11"

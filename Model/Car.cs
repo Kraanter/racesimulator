@@ -42,10 +42,7 @@ namespace Model {
 
         #region Methods
 
-        public override string ToString()
-        {
-            return $"Car[ Quality: {Quality}, Performance: {Performance}, Speed: {Speed}, IsBroken: {IsBroken}]";
-        }
+        public override string ToString() => "a" + IsBroken;
         
         public int GetDistanceTraveled()
         {
@@ -57,17 +54,14 @@ namespace Model {
             if (IsBroken)
             {
                 if (random.Next(0, Quality / 2) == 0)
-                {
-                    IsBroken = false;
-                }
+                                    IsBroken = false;
             }
             else
             {
                 if (random.Next(0, Quality) == 0)
-                {
-                    IsBroken = true;
-                }
+                                    IsBroken = true;
             }
+                
         }
 
         #endregion
@@ -77,14 +71,6 @@ namespace Model {
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
         }
     }
 }

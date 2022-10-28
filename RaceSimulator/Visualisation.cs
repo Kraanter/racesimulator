@@ -157,24 +157,26 @@ public static class Visualisation
             switch (ch)
             {
                 case 'L':
-                    Console.BackgroundColor = sectionData.Left?.GetConsoleColor() ?? BackgroundColor;
-                    Console.ForegroundColor = PlayerColor;
-                    Console.Write(sectionData.Left?.Name[0] ?? ' ');
-                    Console.ForegroundColor = ForegroundColor;
-                    Console.BackgroundColor = BackgroundColor;
+                    _DrawParticipantPart(sectionData.Left);
                     break;
                 case 'R':
-                    Console.BackgroundColor = sectionData.Right?.GetConsoleColor() ?? BackgroundColor;
-                    Console.ForegroundColor = PlayerColor;
-                    Console.Write(sectionData.Right?.Name[0] ?? ' ');
-                    Console.ForegroundColor = ForegroundColor;
-                    Console.BackgroundColor = BackgroundColor;
+                    _DrawParticipantPart(sectionData.Right);
                     break;
                 default:
                     Console.Write(ch);
                     break;
             }
         }
+    }
+
+    private static void _DrawParticipantPart(IParticipant? participant)
+    {
+        char name = participant is null ? ' ' : (participant.Equipment.IsBroken ? '.' : participant.Name[0]);
+        Console.BackgroundColor = participant?.GetConsoleColor() ?? BackgroundColor;
+        Console.ForegroundColor = PlayerColor;
+        Console.Write(name);
+        Console.ForegroundColor = ForegroundColor;
+        Console.BackgroundColor = BackgroundColor;
     }
     
     private static string[] GetSection(SectionTypes sectionType, Directions direction)

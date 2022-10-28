@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPFApp"
+        xmlns:controller="clr-namespace:Controller;assembly=Controller"
         x:Class="WPFApp.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="800">
     <Window.DataContext>
-        <local:DataContext/>
+        <controller:RaceDataContext/>
     </Window.DataContext>
     <StackPanel Background="#A9CB42">
         <DockPanel LastChildFill="False" HorizontalAlignment="Stretch">

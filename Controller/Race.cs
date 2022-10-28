@@ -102,14 +102,14 @@ namespace Controller
                 int startCount = participantsCopy.Count % 2;
                 do
                 {
-                    IParticipant randomParticipant = GetRandomItem(participantsCopy);
+                    IParticipant randomParticipant = DropRandomItemFromList(participantsCopy);
                     SectionData sectionData = GetSectionData(section.ValueRef);
                     sectionData.AddParticipant(randomParticipant, section, 0, _random);
                 } while (participantsCopy.Count % 2 != startCount && participantsCopy.Count != 0);
             }
         }
 
-        private T GetRandomItem<T>(List<T> list)
+        private T DropRandomItemFromList<T>(List<T> list)
         {
             int randomIndex = _random.Next(list.Count);
             T randomItem = list[randomIndex];
@@ -167,9 +167,7 @@ namespace Controller
             DriversChanged?.Invoke(this, new DriversChangedEventArgs() { Track = this.Track });
             _timer.Start();
 
-            var leaderboard = GetParticipantsLeaderboard();
-            if(!leaderboard.SequenceEqual(Leaderboard))
-                Leaderboard = leaderboard;
+            Leaderboard = GetParticipantsLeaderboard();
         }
 
         public void Start()
