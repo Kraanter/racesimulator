@@ -17,8 +17,6 @@ public static class Display
     private const string _start = "Resources\\Tracks\\start.png";
     private const string _straightH = "Resources\\Tracks\\straightH.png";
     private const string _carDestroyed = "Resources\\Cars\\car-destroyed.png";
-    private const string _carPrefix = "Resources\\Cars\\car-";
-    private const string _carSuffix = ".png";
     public const int TrackSize = 300;
     private const int _trackOffset = 15;
     private const int _trackWidth = (TrackSize / 2) - _trackOffset;
