@@ -73,10 +73,9 @@ namespace Controller
                 SectionTypes.RightCorner,
                 SectionTypes.RightCorner
             };
-            // todo: Zet laps op goede aantallen
-            Data.Competition.Tracks.Enqueue(new Track("Monza", 1, Zandvoort));
-            Data.Competition.Tracks.Enqueue(new Track("Zandvoort", 1, Monza));
-            Data.Competition.Tracks.Enqueue(new Track("Spa Francorchamps", 1, Zandvoort));
+            Data.Competition.Tracks.Enqueue(new Track("Monza", 2, Zandvoort));
+            Data.Competition.Tracks.Enqueue(new Track("Zandvoort", 2, Monza));
+            Data.Competition.Tracks.Enqueue(new Track("Spa Francorchamps", 2, Zandvoort));
         }
 
         public static void NextRace()

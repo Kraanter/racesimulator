@@ -48,11 +48,11 @@ namespace Controller
 
         public Race(Track track, List<IParticipant> participants)
         {
+            if(participants.Count != 3) throw new ArgumentException("There must be 3 participants");
             Track = track;
             Participants = participants;
             _finished = new Queue<IParticipant>();
-            // todo: Random is niet random hoort DateTime.Now.Millisecond
-            _random = new Random(69);
+            _random = new Random(DateTime.Now.Millisecond);
             _positions = new Dictionary<Section, SectionData>();
             _timer = new Timer(250);
             _timer.Elapsed += OnTimedEvent;

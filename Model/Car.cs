@@ -54,12 +54,12 @@ namespace Model {
             if (IsBroken)
             {
                 if (random.Next(0, Quality / 2) == 0)
-                                    IsBroken = false;
+                    IsBroken = false;
             }
             else
             {
                 if (random.Next(0, Quality) == 0)
-                                    IsBroken = true;
+                    IsBroken = true;
             }
                 
         }

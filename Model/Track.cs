@@ -20,7 +20,8 @@ namespace Model
         {
             if(sections[0] != SectionTypes.StartGrid) throw new ArgumentException("First section must be a start grid");
             if(sections[1] != SectionTypes.StartGrid) throw new ArgumentException("Second section must be a start grid");
-            if(sections[2] != SectionTypes.Finish) throw new ArgumentException("Third section must be a start grid");
+            if(sections[2] != SectionTypes.Finish) throw new ArgumentException("Third section must be a Finish line");
+            if(laps < 2) throw new ArgumentException("Laps must be at least 2");
             Name = name;
             Laps = laps;
             Sections = SectionTypesToSections(sections);
